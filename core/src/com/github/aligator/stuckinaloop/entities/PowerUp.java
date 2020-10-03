@@ -10,16 +10,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.components.*;
 
-public class Bullet {
-    public static Entity create(World world, float force, Vector2 position, boolean isFromPlayer, int damage) {
+public class PowerUp {
+    public static Entity create(World world, Vector2 velocity, Vector2 position, PowerUpComponent.Type type) {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
-        if (!isFromPlayer) {
-            force = -force;
-            texture.region = Assets.enemyBullet;
-        } else {
-            texture.region = Assets.playerBullet;
+
+        switch (type) {
+            case Life:
+                texture.region = Assets.lifePowerUp;
+                break;
+            case Damage:
+                texture.region = Assets.damagePowerUp;
+                break;
+            case FireRate:
+                texture.region = Assets.fireRatePowerUp;
+                break;
+            default:
         }
 
         BodyComponent bodyComponent = new BodyComponent();
@@ -31,7 +38,7 @@ public class Bullet {
 
         bodyComponent.body = world.createBody(bodyDef);
 
-        bodyComponent.body.applyLinearImpulse(new Vector2(force, 0), bodyComponent.body.getLocalCenter(), true);
+        bodyComponent.body.applyLinearImpulse(velocity, bodyComponent.body.getLocalCenter(), true);
         bodyComponent.body.setTransform(new Vector2(position.x, position.y), 0);
 
         PolygonShape poly = new PolygonShape();
@@ -44,7 +51,7 @@ public class Bullet {
         bodyComponent.body.createFixture(fixtureDef);
         poly.dispose();
 
-        e.add(new BulletComponent(isFromPlayer, damage));
+        e.add(new PowerUpComponent(type));
         e.add(bodyComponent);
         e.add(texture);
         e.add(new CollisionComponent());

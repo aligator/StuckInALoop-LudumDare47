@@ -64,20 +64,8 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new SpaceShipSystem());
         engine.addSystem(new DiscardingSystem());
 
-
         engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
 
-/*        engine.addSystem(new AnimationSystem());
-        engine.addSystem(renderingSystem);
-        engine.addSystem(new PhysicsSystem(world));
-
-        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
-        engine.addSystem(new UselessStateSwapSystem());
-
-        Entity e = buildPuffin(world);
-        engine.addEntity(e);
-        engine.addEntity(buildFloorEntity(world));
-*/
         isInitialized = true;
     }
 

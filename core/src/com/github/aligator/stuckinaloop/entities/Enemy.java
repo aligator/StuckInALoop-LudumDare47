@@ -12,8 +12,6 @@ import com.github.aligator.stuckinaloop.components.*;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
 public class Enemy {
-    public final static float MOVE_SPEED = 20f;
-
     public static Entity create(World world, float force, float yPercentage, float firePauseTime) {
         Entity e = new Entity();
 

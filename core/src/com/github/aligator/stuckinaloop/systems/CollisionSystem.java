@@ -26,7 +26,7 @@ public class CollisionSystem extends IteratingSystem {
 
                 if (Mapper.spaceShip.has(collision.collidedEntity)) {
                     SpaceShipComponent spaceShip = Mapper.spaceShip.get(collision.collidedEntity);
-                    spaceShip.live -= bullet.damage;
+                    spaceShip.life -= bullet.damage;
                 }
             }
 

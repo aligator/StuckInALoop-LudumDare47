@@ -13,7 +13,11 @@ public class Assets {
     public static TextureRegion enemy;
     public static TextureRegion enemyBullet;
     public static TextureRegion playerBullet;
-    public static TextureRegion bullet;
+
+    public static TextureRegion lifePowerUp;
+    public static TextureRegion damagePowerUp;
+    public static TextureRegion fireRatePowerUp;
+
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
 
@@ -23,6 +27,7 @@ public class Assets {
         loadPlayer();
         loadEnemy();
         loadBullets();
+        loadPowerUps();
 
         assetManager = new AssetManager();
 
@@ -47,5 +52,11 @@ public class Assets {
         enemyBullet.flip(true, false);
 
         playerBullet = new TextureRegion(new Texture("bullet.png"));
+    }
+
+    private static void loadPowerUps() {
+        lifePowerUp = new TextureRegion(new Texture("life.png"));
+        damagePowerUp = new TextureRegion(new Texture("damage.png"));
+        fireRatePowerUp = new TextureRegion(new Texture("fire_rate.png"));
     }
 }
