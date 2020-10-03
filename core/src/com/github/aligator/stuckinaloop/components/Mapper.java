@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 public class Mapper {
     public static final ComponentMapper<PlayerComponent> player = ComponentMapper.getFor(PlayerComponent.class);
     public static final ComponentMapper<EnemyComponent> enemy = ComponentMapper.getFor(EnemyComponent.class);
+    public static final ComponentMapper<SpaceShipComponent> spaceShip = ComponentMapper.getFor(SpaceShipComponent.class);
     public static final ComponentMapper<BulletComponent> bullet = ComponentMapper.getFor(BulletComponent.class);
     public static final ComponentMapper<ShootingComponent> shooting = ComponentMapper.getFor(ShootingComponent.class);
     public static final ComponentMapper<TextureComponent> texture = ComponentMapper.getFor(TextureComponent.class);

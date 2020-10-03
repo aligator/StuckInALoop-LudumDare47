@@ -48,6 +48,7 @@ public class Enemy {
 
         e.add(new EnemyComponent());
         e.add(new DiscardingComponent());
+        e.add(new SpaceShipComponent());
         e.add(new ShootingComponent(true, firePauseTime));
         e.add(bodyComponent);
         e.add(velocity);

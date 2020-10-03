@@ -13,7 +13,7 @@ import com.github.aligator.stuckinaloop.components.*;
 public class Bullet {
     public final static float MOVE_SPEED = 150.0f;
 
-    public static Entity create(World world, float force, Vector2 position, boolean isFromPlayer) {
+    public static Entity create(World world, float force, Vector2 position, boolean isFromPlayer, int damage) {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
@@ -46,7 +46,7 @@ public class Bullet {
         bodyComponent.body.createFixture(fixtureDef);
         poly.dispose();
 
-        e.add(new BulletComponent(isFromPlayer));
+        e.add(new BulletComponent(isFromPlayer, damage));
         e.add(bodyComponent);
         e.add(texture);
         e.add(new CollisionComponent());

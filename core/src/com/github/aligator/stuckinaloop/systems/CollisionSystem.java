@@ -6,12 +6,12 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.github.aligator.stuckinaloop.components.BulletComponent;
 import com.github.aligator.stuckinaloop.components.CollisionComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
-import com.github.aligator.stuckinaloop.components.PlayerComponent;
+import com.github.aligator.stuckinaloop.components.SpaceShipComponent;
 
 public class CollisionSystem extends IteratingSystem {
 
     public CollisionSystem() {
-        super(Family.all(CollisionComponent.class).one(PlayerComponent.class, BulletComponent.class).get());
+        super(Family.all(CollisionComponent.class).one(BulletComponent.class).get());
     }
 
     protected void processBulletCollision(Entity entity, float deltaTime) {
@@ -22,8 +22,20 @@ public class CollisionSystem extends IteratingSystem {
             if (bullet.isFromPlayer && Mapper.enemy.has(collision.collidedEntity) ||
                     !bullet.isFromPlayer && Mapper.player.has(collision.collidedEntity)
             ) {
-                getEngine().removeEntity(collision.collidedEntity);
                 getEngine().removeEntity(entity);
+
+                if (Mapper.spaceShip.has(collision.collidedEntity)) {
+                    SpaceShipComponent spaceShip = Mapper.spaceShip.get(collision.collidedEntity);
+                    spaceShip.live -= bullet.damage;
+                }
+            }
+
+            if (Mapper.bullet.has(collision.collidedEntity)) {
+                BulletComponent bullet2 = Mapper.bullet.get(collision.collidedEntity);
+                if (bullet.isFromPlayer != bullet2.isFromPlayer) {
+                    getEngine().removeEntity(collision.collidedEntity);
+                    getEngine().removeEntity(entity);
+                }
             }
 
             collision.collidedEntity = null; // collision handled, reset component

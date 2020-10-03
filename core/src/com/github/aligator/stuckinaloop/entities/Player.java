@@ -46,6 +46,7 @@ public class Player {
 
         e.add(new PlayerComponent());
         e.add(new ShootingComponent());
+        e.add(new SpaceShipComponent());
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);

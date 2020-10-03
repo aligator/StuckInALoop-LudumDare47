@@ -12,7 +12,7 @@ public class ShootingSystem extends IteratingSystem {
     private final World world;
 
     public ShootingSystem(World world) {
-        super(Family.all(ShootingComponent.class, BodyComponent.class).one(PlayerComponent.class, EnemyComponent.class).get());
+        super(Family.all(ShootingComponent.class, BodyComponent.class, SpaceShipComponent.class).one(PlayerComponent.class, EnemyComponent.class).get());
         this.world = world;
     }
 
@@ -29,7 +29,7 @@ public class ShootingSystem extends IteratingSystem {
         if (shooting.isShooting && (shooting.lastShotTime == -1 || shooting.lastShotTime > shooting.firePauseTime)) {
             shooting.lastShotTime = 0;
             System.out.println(body.body.getPosition());
-            Entity bullet = Bullet.create(world, 50, body.body.getPosition(), Mapper.player.has(entity));
+            Entity bullet = Bullet.create(world, 50, body.body.getPosition(), Mapper.player.has(entity), Mapper.spaceShip.get(entity).damage);
 
             getEngine().addEntity(bullet);
         }
