@@ -8,6 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.PlayerComponent;
+import com.github.aligator.stuckinaloop.components.ShootingComponent;
 import com.github.aligator.stuckinaloop.components.VelocityComponent;
 import com.github.aligator.stuckinaloop.entities.Player;
 import com.github.aligator.stuckinaloop.handlers.IInputListener;
@@ -21,7 +22,7 @@ public class InputSystem extends EntitySystem implements IInputListener {
 
     @Override
     public void addedToEngine(Engine engine) {
-        ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(PlayerComponent.class, VelocityComponent.class).get());
+        ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(PlayerComponent.class, VelocityComponent.class, ShootingComponent.class).get());
         if (entities.size() > 0) {
             player = entities.first();
             return;
@@ -52,7 +53,7 @@ public class InputSystem extends EntitySystem implements IInputListener {
             return;
         }
 
-        PlayerComponent playerComp = Mapper.player.get(player);
-        playerComp.isShooting = active;
+        ShootingComponent shooting = Mapper.shooting.get(player);
+        shooting.isShooting = active;
     }
 }

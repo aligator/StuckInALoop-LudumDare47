@@ -11,6 +11,8 @@ public class Assets {
     public static TextureRegion splashScreen;
     public static TextureRegion player;
     public static TextureRegion enemy;
+    public static TextureRegion enemyBullet;
+    public static TextureRegion playerBullet;
     public static TextureRegion bullet;
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
@@ -20,7 +22,7 @@ public class Assets {
         loadSplash();
         loadPlayer();
         loadEnemy();
-        loadBullet();
+        loadBullets();
 
         assetManager = new AssetManager();
 
@@ -40,7 +42,10 @@ public class Assets {
         enemy.flip(true, false);
     }
 
-    private static void loadBullet() {
-        bullet = new TextureRegion(new Texture("bullet.png"));
+    private static void loadBullets() {
+        enemyBullet = new TextureRegion(new Texture("bullet.png"));
+        enemyBullet.flip(true, false);
+
+        playerBullet = new TextureRegion(new Texture("bullet.png"));
     }
 }

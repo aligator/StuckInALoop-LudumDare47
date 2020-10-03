@@ -19,7 +19,9 @@ public class CollisionSystem extends IteratingSystem {
         CollisionComponent collision = Mapper.collision.get(entity);
 
         if (collision.collidedEntity != null) {
-            if (Mapper.enemy.has(collision.collidedEntity)) {
+            if (bullet.isFromPlayer && Mapper.enemy.has(collision.collidedEntity) ||
+                    !bullet.isFromPlayer && Mapper.player.has(collision.collidedEntity)
+            ) {
                 getEngine().removeEntity(collision.collidedEntity);
                 getEngine().removeEntity(entity);
             }

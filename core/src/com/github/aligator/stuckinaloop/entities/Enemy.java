@@ -45,6 +45,7 @@ public class Enemy {
 
         e.add(new EnemyComponent());
         e.add(new DiscardingComponent());
+        e.add(new ShootingComponent(true, 2f));
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
