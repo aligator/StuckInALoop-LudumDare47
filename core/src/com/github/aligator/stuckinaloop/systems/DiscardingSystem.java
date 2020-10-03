@@ -8,6 +8,9 @@ import com.github.aligator.stuckinaloop.components.DiscardingComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.TextureComponent;
 
+/**
+ * DiscardingSystem removes entities out of screen (if they have the DiscardingComponent).
+ */
 public class DiscardingSystem extends IteratingSystem {
 
     public DiscardingSystem() {
@@ -34,6 +37,7 @@ public class DiscardingSystem extends IteratingSystem {
                     body.body.getPosition().y + margin < 0 ||
                     body.body.getPosition().x - margin > RenderingSystem.getScreenSizeInMeters().x ||
                     body.body.getPosition().y - margin > RenderingSystem.getScreenSizeInMeters().y) {
+                System.out.println("Discarding entity");
                 getEngine().removeEntity(entity);
             }
         }

@@ -28,7 +28,6 @@ public class PhysicsSystem extends IteratingSystem {
             world.step(deltaTime, 6, 2);
             accumulator -= MAX_STEP_TIME;
         }
-
     }
 
     @Override

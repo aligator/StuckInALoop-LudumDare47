@@ -8,10 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
-import com.github.aligator.stuckinaloop.components.BodyComponent;
-import com.github.aligator.stuckinaloop.components.EnemyComponent;
-import com.github.aligator.stuckinaloop.components.TextureComponent;
-import com.github.aligator.stuckinaloop.components.VelocityComponent;
+import com.github.aligator.stuckinaloop.components.*;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
 public class Enemy {
@@ -21,7 +18,7 @@ public class Enemy {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
-        texture.region = Assets.player;
+        texture.region = Assets.enemy;
 
         VelocityComponent velocity = new VelocityComponent();
 
@@ -47,6 +44,7 @@ public class Enemy {
         poly.dispose();
 
         e.add(new EnemyComponent());
+        e.add(new DiscardingComponent());
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
