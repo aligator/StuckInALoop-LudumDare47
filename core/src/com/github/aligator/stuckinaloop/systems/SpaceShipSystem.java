@@ -9,10 +9,16 @@ import com.github.aligator.stuckinaloop.components.PowerUpComponent;
 import com.github.aligator.stuckinaloop.components.SpaceShipComponent;
 import com.github.aligator.stuckinaloop.entities.PowerUp;
 
+import java.util.Random;
+
 public class SpaceShipSystem extends IteratingSystem {
+
+    private final static int powerUpProbability = 5;
+    private final Random robert;
 
     public SpaceShipSystem() {
         super(Family.all(SpaceShipComponent.class).get());
+        robert = new Random(powerUpProbability);
     }
 
     @Override
@@ -21,7 +27,12 @@ public class SpaceShipSystem extends IteratingSystem {
         if (spaceShip.life <= 0) {
             if (Mapper.enemy.has(entity) && Mapper.body.has(entity)) {
                 BodyComponent body = Mapper.body.get(entity);
-                getEngine().addEntity(PowerUp.create(body.body.getWorld(), body.body.getLinearVelocity(), body.body.getPosition(), PowerUpComponent.Type.Damage));
+
+                if (robert.nextInt(powerUpProbability) == 0) {
+                    PowerUpComponent.Type type = PowerUpComponent.Type.values()[robert.nextInt(PowerUpComponent.Type.values().length)];
+
+                    getEngine().addEntity(PowerUp.create(body.body.getWorld(), body.body.getLinearVelocity(), body.body.getPosition(), type));
+                }
             }
 
             getEngine().removeEntity(entity);
