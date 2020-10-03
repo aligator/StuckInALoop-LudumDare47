@@ -13,12 +13,12 @@ import java.util.Random;
 
 public class SpaceShipSystem extends IteratingSystem {
 
-    private final static int powerUpProbability = 5;
+    private final static int powerUpProbability = 3;
     private final Random robert;
 
     public SpaceShipSystem() {
         super(Family.all(SpaceShipComponent.class).get());
-        robert = new Random(powerUpProbability);
+        robert = new Random();
     }
 
     @Override

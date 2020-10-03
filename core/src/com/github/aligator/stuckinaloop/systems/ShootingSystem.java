@@ -28,7 +28,6 @@ public class ShootingSystem extends IteratingSystem {
 
         if (shooting.isShooting && (shooting.lastShotTime == -1 || shooting.lastShotTime > shooting.firePauseTime)) {
             shooting.lastShotTime = 0;
-            System.out.println(body.body.getPosition());
             Entity bullet = Bullet.create(world, 50, body.body.getPosition(), Mapper.player.has(entity), Mapper.spaceShip.get(entity).damage);
 
             getEngine().addEntity(bullet);

@@ -17,7 +17,6 @@ public class EnemySpawningSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        System.out.println(fullTime);
         fullTime += deltaTime;
 
 

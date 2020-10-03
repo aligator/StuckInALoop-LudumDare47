@@ -37,7 +37,6 @@ public class DiscardingSystem extends IteratingSystem {
                     body.body.getPosition().y + margin < 0 ||
                     body.body.getPosition().x - margin > RenderingSystem.getScreenSizeInMeters().x ||
                     body.body.getPosition().y - margin > RenderingSystem.getScreenSizeInMeters().y) {
-                System.out.println("Discarding entity");
                 getEngine().removeEntity(entity);
             }
         }

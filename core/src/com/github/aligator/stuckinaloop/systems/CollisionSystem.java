@@ -3,15 +3,12 @@ package com.github.aligator.stuckinaloop.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.github.aligator.stuckinaloop.components.BulletComponent;
-import com.github.aligator.stuckinaloop.components.CollisionComponent;
-import com.github.aligator.stuckinaloop.components.Mapper;
-import com.github.aligator.stuckinaloop.components.SpaceShipComponent;
+import com.github.aligator.stuckinaloop.components.*;
 
 public class CollisionSystem extends IteratingSystem {
 
     public CollisionSystem() {
-        super(Family.all(CollisionComponent.class).one(BulletComponent.class).get());
+        super(Family.all(CollisionComponent.class).one(BulletComponent.class, PowerUpComponent.class).get());
     }
 
     protected void processBulletCollision(Entity entity, float deltaTime) {
@@ -42,10 +39,47 @@ public class CollisionSystem extends IteratingSystem {
         }
     }
 
+    protected void processPowerUpCollision(Entity entity, float deltaTime) {
+        PowerUpComponent powerUp = Mapper.powerUp.get(entity);
+        CollisionComponent collision = Mapper.collision.get(entity);
+
+        if (collision.collidedEntity != null) {
+            if (Mapper.player.has(collision.collidedEntity) && Mapper.spaceShip.has(collision.collidedEntity)) {
+                SpaceShipComponent playerSpaceShip = Mapper.spaceShip.get(collision.collidedEntity);
+
+                switch (powerUp.type) {
+                    case FireRate:
+                        if (Mapper.shooting.has(collision.collidedEntity)) {
+                            ShootingComponent shooting = Mapper.shooting.get(collision.collidedEntity);
+                            shooting.firePauseTime -= 0.1f;
+                            if (shooting.firePauseTime < 0.1f) {
+                                shooting.firePauseTime = 0.1f;
+                            }
+                        }
+                        break;
+                    case Damage:
+                        playerSpaceShip.damage += 1;
+                        break;
+                    case Life:
+                        playerSpaceShip.life += 1;
+                        break;
+                }
+
+                getEngine().removeEntity(entity);
+            }
+
+            collision.collidedEntity = null; // collision handled, reset component
+        }
+    }
+
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         if (Mapper.bullet.has(entity)) {
             processBulletCollision(entity, deltaTime);
+            return;
+        }
+        if (Mapper.powerUp.has(entity)) {
+            processPowerUpCollision(entity, deltaTime);
             return;
         }
     }
