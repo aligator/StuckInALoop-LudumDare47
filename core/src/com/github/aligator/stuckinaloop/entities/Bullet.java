@@ -6,11 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
-import com.github.aligator.stuckinaloop.components.BodyComponent;
-import com.github.aligator.stuckinaloop.components.BulletComponent;
-import com.github.aligator.stuckinaloop.components.TextureComponent;
-import com.github.aligator.stuckinaloop.components.VelocityComponent;
-import com.github.aligator.stuckinaloop.systems.RenderingSystem;
+import com.github.aligator.stuckinaloop.components.*;
 
 public class Bullet {
     public final static float MOVE_SPEED = 150.0f;
@@ -22,9 +18,6 @@ public class Bullet {
         texture.region = Assets.bullet;
 
         VelocityComponent velocity = new VelocityComponent();
-
-        velocity.minBounds = new Vector2();
-        velocity.maxBounds = new Vector2(RenderingSystem.getScreenSizeInMeters().x, RenderingSystem.getScreenSizeInMeters().y);
 
         BodyComponent bodyComponent = new BodyComponent();
 
@@ -42,6 +35,7 @@ public class Bullet {
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
+        e.add(new DiscardingComponent());
 
         return e;
     }

@@ -13,7 +13,7 @@ public class ShootingSystem extends IteratingSystem {
 
     private final World world;
     private float lastShotTime = 0;
-    private float firerate = 1;
+    private float firerate = 0.1f;
 
 
     public ShootingSystem(World world) {
