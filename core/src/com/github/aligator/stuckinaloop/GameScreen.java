@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.entities.Player;
 import com.github.aligator.stuckinaloop.handlers.RawInputHandler;
-import com.github.aligator.stuckinaloop.systems.InputProcessorSystem;
+import com.github.aligator.stuckinaloop.systems.InputSystem;
 import com.github.aligator.stuckinaloop.systems.MovementSystem;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
@@ -41,16 +41,16 @@ public class GameScreen extends ScreenAdapter {
 
         RenderingSystem renderingSystem = new RenderingSystem(batch);
 
-        InputProcessorSystem inputProcessorSystem = new InputProcessorSystem();
+        InputSystem inputSystem = new InputSystem();
 
-        inputHandler = new RawInputHandler(inputProcessorSystem);
+        inputHandler = new RawInputHandler(inputSystem);
         Gdx.input.setInputProcessor(inputHandler);
 
         Entity player = Player.create();
         engine.addEntity(player);
 
         engine.addSystem(renderingSystem);
-        engine.addSystem(inputProcessorSystem);
+        engine.addSystem(inputSystem);
         engine.addSystem(new MovementSystem());
 
 /*        engine.addSystem(new AnimationSystem());

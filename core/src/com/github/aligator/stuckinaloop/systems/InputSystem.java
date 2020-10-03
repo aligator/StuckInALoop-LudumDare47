@@ -6,16 +6,17 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
+import com.github.aligator.stuckinaloop.components.BodyComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.PlayerComponent;
 import com.github.aligator.stuckinaloop.components.VelocityComponent;
 import com.github.aligator.stuckinaloop.entities.Player;
 import com.github.aligator.stuckinaloop.handlers.IInputListener;
 
-public class InputProcessorSystem extends EntitySystem implements IInputListener {
+public class InputSystem extends EntitySystem implements IInputListener {
     private Entity player;
 
-    public InputProcessorSystem() {
+    public InputSystem() {
         super();
     }
 

@@ -3,11 +3,14 @@ package com.github.aligator.stuckinaloop.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.github.aligator.stuckinaloop.components.*;
+import com.github.aligator.stuckinaloop.components.Mapper;
+import com.github.aligator.stuckinaloop.components.TextureComponent;
+import com.github.aligator.stuckinaloop.components.TransformComponent;
+import com.github.aligator.stuckinaloop.components.VelocityComponent;
 
 public class MovementSystem extends IteratingSystem {
     public MovementSystem() {
-        super(Family.all(PlayerComponent.class, VelocityComponent.class, TextureComponent.class).get());
+        super(Family.all(TransformComponent.class, VelocityComponent.class, TextureComponent.class).get());
     }
 
     @Override

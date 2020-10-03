@@ -7,34 +7,78 @@ import com.badlogic.gdx.math.Vector2;
 public class RawInputHandler implements InputProcessor {
     private IInputListener listener;
 
+    private boolean forward = false;
+    private boolean backward = false;
+    private boolean up = false;
+    private boolean down = false;
+
+
     public RawInputHandler(IInputListener listener) {
         this.listener = listener;
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
+    private void doMove() {
         Vector2 direction = new Vector2();
 
-        if (keycode == Input.Keys.W) {
+        if (backward && !forward) {
+            direction.x = -1;
+        }
+        if (forward && !backward) {
+            direction.x = 1;
+        }
+
+        if (up && !down) {
             direction.y = 1;
-        } else if (keycode == Input.Keys.S) {
+        }
+        if (down && !up) {
             direction.y = -1;
         }
 
-        if (keycode == Input.Keys.D) {
-            direction.x = 1;
-        } else if (keycode == Input.Keys.A) {
-            direction.x = -1;
+        listener.move(direction);
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.W) {
+            up = true;
         }
 
-        listener.move(direction);
+        if (keycode == Input.Keys.S) {
+            down = true;
+        }
+
+        if (keycode == Input.Keys.D) {
+            forward = true;
+        }
+
+        if (keycode == Input.Keys.A) {
+            backward = true;
+        }
+
+        doMove();
 
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        listener.move(new Vector2());
+        if (keycode == Input.Keys.W) {
+            up = false;
+        }
+
+        if (keycode == Input.Keys.S) {
+            down = false;
+        }
+
+        if (keycode == Input.Keys.D) {
+            forward = false;
+        }
+
+        if (keycode == Input.Keys.A) {
+            backward = false;
+        }
+
+        doMove();
 
         return false;
     }
