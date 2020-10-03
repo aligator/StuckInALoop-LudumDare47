@@ -1,25 +1,54 @@
 package com.github.aligator.stuckinaloop.handlers;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.physics.box2d.*;
+import com.github.aligator.stuckinaloop.components.CollisionComponent;
+import com.github.aligator.stuckinaloop.components.Mapper;
 
 public class B2dContactHandler implements ContactListener {
-    private ICollisionListener listener;
-
-    public B2dContactHandler(ICollisionListener listener) {
-        this.listener = listener;
+    public B2dContactHandler() {
     }
 
     @Override
     public void beginContact(Contact contact) {
+        System.out.println("Contact");
 
+        // get fixtures
+        Fixture fa = contact.getFixtureA();
+        Fixture fb = contact.getFixtureB();
+        System.out.println(fa.getBody().getType() + " has hit " + fb.getBody().getType());
+        // check if either fixture has an Entity object stored in the body's userData
+        if (fa.getBody().getUserData() instanceof Entity) {
+            Entity ent = (Entity) fa.getBody().getUserData();
+            entityCollision(ent, fb);
+            return;
+        } else if (fb.getBody().getUserData() instanceof Entity) {
+            Entity ent = (Entity) fb.getBody().getUserData();
+            entityCollision(ent, fa);
+            return;
+        }
+    }
+
+    private void entityCollision(Entity ent, Fixture fb) {
+        // check the collided Entity is also an Entity
+        if (fb.getBody().getUserData() instanceof Entity) {
+            Entity colEnt = (Entity) fb.getBody().getUserData();
+            // get the components for this entity
+            CollisionComponent colA = Mapper.collision.get(ent);
+            CollisionComponent colB = Mapper.collision.get(colEnt);
+
+            // set the CollisionEntity of the component
+            if (colA != null) {
+                colA.collidedEntity = colEnt;
+            } else if (colB != null) {
+                colB.collidedEntity = ent;
+            }
+        }
     }
 
     @Override
     public void endContact(Contact contact) {
-
+        System.out.println("Contact end");
     }
 
     @Override

@@ -8,16 +8,20 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
-import com.github.aligator.stuckinaloop.components.*;
+import com.github.aligator.stuckinaloop.components.BodyComponent;
+import com.github.aligator.stuckinaloop.components.EnemyComponent;
+import com.github.aligator.stuckinaloop.components.TextureComponent;
+import com.github.aligator.stuckinaloop.components.VelocityComponent;
+import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
-public class Bullet {
-    public final static float MOVE_SPEED = 150.0f;
+public class Enemy {
+    public final static float MOVE_SPEED = 20f;
 
-    public static Entity create(World world, float force, Vector2 position) {
+    public static Entity create(World world, float force) {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
-        texture.region = Assets.bullet;
+        texture.region = Assets.player;
 
         VelocityComponent velocity = new VelocityComponent();
 
@@ -26,27 +30,26 @@ public class Bullet {
         BodyDef bodyDef = new BodyDef();
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(texture.widthInMeters() / 2, texture.heightInMeters() / 2));
+        bodyDef.position.set(new Vector2(RenderingSystem.getScreenSizeInMeters().x + texture.widthInMeters() / 2, texture.heightInMeters() / 2));
 
         bodyComponent.body = world.createBody(bodyDef);
+
         bodyComponent.body.applyLinearImpulse(new Vector2(force, 0), bodyComponent.body.getLocalCenter(), true);
-        bodyComponent.body.setTransform(new Vector2(position.x, position.y), 0);
 
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(texture.widthInMeters() / 2, texture.heightInMeters() / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = poly;
+        fixtureDef.isSensor = true;
         bodyComponent.body.setUserData(e);
         bodyComponent.body.createFixture(fixtureDef);
         poly.dispose();
 
-        e.add(new BulletComponent());
+        e.add(new EnemyComponent());
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
-        e.add(new CollisionComponent());
-        e.add(new DiscardingComponent());
 
         return e;
     }

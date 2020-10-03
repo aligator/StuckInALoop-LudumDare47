@@ -1,7 +1,6 @@
 package com.github.aligator.stuckinaloop;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -9,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
+import com.github.aligator.stuckinaloop.entities.Enemy;
 import com.github.aligator.stuckinaloop.entities.Player;
+import com.github.aligator.stuckinaloop.handlers.B2dContactHandler;
+import com.github.aligator.stuckinaloop.handlers.DisposeComponentHandler;
 import com.github.aligator.stuckinaloop.handlers.RawInputHandler;
 import com.github.aligator.stuckinaloop.systems.*;
 
@@ -36,7 +38,11 @@ public class GameScreen extends ScreenAdapter {
         Box2D.init();
         world = new World(new Vector2(0f, 0f), true);
 
+        world.setContactListener(new B2dContactHandler());
+
         engine = new PooledEngine();
+
+        engine.addEntityListener(new DisposeComponentHandler(world));
 
         RenderingSystem renderingSystem = new RenderingSystem(batch);
 
@@ -45,8 +51,8 @@ public class GameScreen extends ScreenAdapter {
         inputHandler = new RawInputHandler(inputSystem);
         Gdx.input.setInputProcessor(inputHandler);
 
-        Entity player = Player.create(world);
-        engine.addEntity(player);
+        engine.addEntity(Player.create(world));
+        engine.addEntity(Enemy.create(world, -10f));
 
         engine.addSystem(renderingSystem);
         engine.addSystem(inputSystem);
@@ -55,9 +61,11 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addSystem(new PhysicsSystem(world));
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new DiscardingSystem());
+
+
+        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
 
 /*        engine.addSystem(new AnimationSystem());
         engine.addSystem(renderingSystem);

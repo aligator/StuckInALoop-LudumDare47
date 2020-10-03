@@ -19,6 +19,10 @@ public class CollisionSystem extends IteratingSystem {
         CollisionComponent collision = Mapper.collision.get(entity);
 
         if (collision.collidedEntity != null) {
+            if (Mapper.enemy.has(collision.collidedEntity)) {
+                getEngine().removeEntity(collision.collidedEntity);
+                getEngine().removeEntity(entity);
+            }
 
             collision.collidedEntity = null; // collision handled, reset component
         }
