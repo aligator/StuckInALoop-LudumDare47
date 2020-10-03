@@ -1,35 +1,42 @@
 package com.github.aligator.stuckinaloop.systems;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
+import com.github.aligator.stuckinaloop.components.BodyComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.TextureComponent;
-import com.github.aligator.stuckinaloop.components.TransformComponent;
 
-public class RenderingSystem extends IteratingSystem {
+public class RenderingSystem extends EntitySystem implements EntityListener {
 
     private SpriteBatch batch;
-    private Array<Entity> renderQueue;
     private OrthographicCamera cam;
+    ImmutableArray<Entity> entities;
+
 
     public RenderingSystem(SpriteBatch batch) {
-        super(Family.all(TransformComponent.class, TextureComponent.class).get());
-
         this.batch = batch;
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
     }
 
     @Override
+    public void addedToEngine(Engine engine) {
+        entities = getEngine().getEntitiesFor(Family.all(BodyComponent.class, TextureComponent.class).get());
+    }
+
+    @Override
+    public void removedFromEngine(Engine engine) {
+        entities = null;
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (renderQueue == null) {
+        if (entities == null) {
             return;
         }
 
@@ -38,11 +45,11 @@ public class RenderingSystem extends IteratingSystem {
         batch.enableBlending();
         batch.begin();
 
-        for (Entity entity : renderQueue) {
+        for (Entity entity : entities) {
             TextureComponent tex = Mapper.texture.get(entity);
-            TransformComponent t = Mapper.transform.get(entity);
+            BodyComponent t = Mapper.body.get(entity);
 
-            if (tex.region == null || t.isHidden) {
+            if (tex.region == null) {
                 continue;
             }
 
@@ -53,25 +60,27 @@ public class RenderingSystem extends IteratingSystem {
             float originY = height / 2f;
 
             batch.draw(tex.region,
-                    t.position.x - originX, t.position.y - originY,
+                    t.body.getPosition().x - originX, t.body.getPosition().y - originY,
                     originX, originY,
                     width, height,
                     1, 1,
-                    t.rotation);
+                    t.body.getTransform().getRotation());
         }
 
         batch.end();
-        renderQueue.clear();
-    }
-
-    @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        renderQueue = new Array<>();
-
-        renderQueue.add(entity);
     }
 
     public OrthographicCamera getCamera() {
         return cam;
+    }
+
+    @Override
+    public void entityAdded(Entity entity) {
+        addedToEngine(getEngine());
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        addedToEngine(getEngine());
     }
 }

@@ -7,15 +7,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.entities.Player;
 import com.github.aligator.stuckinaloop.handlers.RawInputHandler;
-import com.github.aligator.stuckinaloop.systems.InputSystem;
-import com.github.aligator.stuckinaloop.systems.MovementSystem;
-import com.github.aligator.stuckinaloop.systems.RenderingSystem;
+import com.github.aligator.stuckinaloop.systems.*;
 
 public class GameScreen extends ScreenAdapter {
-
     private RawInputHandler inputHandler;
 
     private boolean isInitialized = false;
@@ -33,9 +31,10 @@ public class GameScreen extends ScreenAdapter {
 
     private void init() {
         Gdx.app.log("GameScreen", "Initializing");
-        isInitialized = true;
+        isInitialized = false;
 
-        world = new World(new Vector2(0f, -9.8f), true);
+        Box2D.init();
+        world = new World(new Vector2(0f, 0f), true);
 
         engine = new PooledEngine();
 
@@ -46,11 +45,15 @@ public class GameScreen extends ScreenAdapter {
         inputHandler = new RawInputHandler(inputSystem);
         Gdx.input.setInputProcessor(inputHandler);
 
-        Entity player = Player.create();
+        Entity player = Player.create(world);
         engine.addEntity(player);
 
         engine.addSystem(renderingSystem);
         engine.addSystem(inputSystem);
+
+        engine.addSystem(new ShootingSystem(world));
+
+        engine.addSystem(new PhysicsSystem(world));
         engine.addSystem(new MovementSystem());
 
 /*        engine.addSystem(new AnimationSystem());
@@ -84,5 +87,11 @@ public class GameScreen extends ScreenAdapter {
         } else {
             init();
         }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        world.dispose();
     }
 }

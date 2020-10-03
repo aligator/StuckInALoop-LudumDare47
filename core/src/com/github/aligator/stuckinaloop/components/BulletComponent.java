@@ -2,6 +2,5 @@ package com.github.aligator.stuckinaloop.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class PlayerComponent implements Component {
-    public boolean isShooting = false;
+public class BulletComponent implements Component {
 }

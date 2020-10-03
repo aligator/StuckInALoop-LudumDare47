@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
-import com.github.aligator.stuckinaloop.components.BodyComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.PlayerComponent;
 import com.github.aligator.stuckinaloop.components.VelocityComponent;
@@ -42,8 +41,18 @@ public class InputSystem extends EntitySystem implements IInputListener {
             return;
         }
 
-        VelocityComponent transform = Mapper.velocity.get(player);
-        transform.force.x = direction.x * Player.MOVE_SPEED;
-        transform.force.y = direction.y * Player.MOVE_SPEED;
+        VelocityComponent velocity = Mapper.velocity.get(player);
+        velocity.force.x = direction.x * Player.MOVE_SPEED;
+        velocity.force.y = direction.y * Player.MOVE_SPEED;
+    }
+
+    @Override
+    public void shoot(boolean active) {
+        if (player == null) {
+            return;
+        }
+
+        PlayerComponent playerComp = Mapper.player.get(player);
+        playerComp.isShooting = active;
     }
 }

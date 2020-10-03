@@ -10,6 +10,7 @@ public class Assets {
     public static AssetManager assetManager;
     public static TextureRegion splashScreen;
     public static TextureRegion player;
+    public static TextureRegion bullet;
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
 
@@ -17,6 +18,7 @@ public class Assets {
 
         loadSplash();
         loadPlayer();
+        loadBullet();
 
         assetManager = new AssetManager();
 
@@ -29,5 +31,9 @@ public class Assets {
 
     private static void loadPlayer() {
         player = new TextureRegion(new Texture("spaceship.png"));
+    }
+
+    private static void loadBullet() {
+        bullet = new TextureRegion(new Texture("bullet.png"));
     }
 }

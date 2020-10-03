@@ -57,6 +57,10 @@ public class RawInputHandler implements InputProcessor {
 
         doMove();
 
+        if (keycode == Input.Keys.SPACE) {
+            listener.shoot(true);
+        }
+
         return false;
     }
 
@@ -79,6 +83,10 @@ public class RawInputHandler implements InputProcessor {
         }
 
         doMove();
+
+        if (keycode == Input.Keys.SPACE) {
+            listener.shoot(false);
+        }
 
         return false;
     }
