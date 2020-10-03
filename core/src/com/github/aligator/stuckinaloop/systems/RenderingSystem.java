@@ -29,6 +29,10 @@ public class RenderingSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
+        if (renderQueue == null) {
+            return;
+        }
+
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.enableBlending();

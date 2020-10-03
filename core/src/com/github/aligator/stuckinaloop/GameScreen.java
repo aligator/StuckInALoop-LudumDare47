@@ -1,5 +1,7 @@
 package com.github.aligator.stuckinaloop;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -7,13 +9,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.entities.Player;
+import com.github.aligator.stuckinaloop.handlers.RawInputHandler;
+import com.github.aligator.stuckinaloop.systems.InputProcessorSystem;
+import com.github.aligator.stuckinaloop.systems.MovementSystem;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
 public class GameScreen extends ScreenAdapter {
 
+    private RawInputHandler inputHandler;
+
     private boolean isInitialized = false;
     private World world;
-    private PooledEngine engine;
+    private Engine engine;
 
     private SpriteBatch batch;
     private IScreenDispatcher dispatcher;
@@ -29,14 +36,22 @@ public class GameScreen extends ScreenAdapter {
         isInitialized = true;
 
         world = new World(new Vector2(0f, -9.8f), true);
-        //Add Texture Component
-        engine = new PooledEngine();
 
+        engine = new PooledEngine();
 
         RenderingSystem renderingSystem = new RenderingSystem(batch);
 
+        InputProcessorSystem inputProcessorSystem = new InputProcessorSystem();
+
+        inputHandler = new RawInputHandler(inputProcessorSystem);
+        Gdx.input.setInputProcessor(inputHandler);
+
+        Entity player = Player.create();
+        engine.addEntity(player);
+
         engine.addSystem(renderingSystem);
-        engine.addEntity(Player.create());
+        engine.addSystem(inputProcessorSystem);
+        engine.addSystem(new MovementSystem());
 
 /*        engine.addSystem(new AnimationSystem());
         engine.addSystem(renderingSystem);
@@ -54,7 +69,6 @@ public class GameScreen extends ScreenAdapter {
 
     private void update(float delta) {
         engine.update(delta);
-
         /*
         elapsedTime += delta;
         if(elapsedTime/1000f > secondsToSplash){
