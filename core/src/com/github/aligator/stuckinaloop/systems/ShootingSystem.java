@@ -10,7 +10,6 @@ import com.github.aligator.stuckinaloop.entities.Bullet;
 public class ShootingSystem extends IteratingSystem {
 
     private final World world;
-    private float lastShotTime = 0;
 
     public ShootingSystem(World world) {
         super(Family.all(ShootingComponent.class, BodyComponent.class).one(PlayerComponent.class, EnemyComponent.class).get());
@@ -22,14 +21,18 @@ public class ShootingSystem extends IteratingSystem {
         ShootingComponent shooting = Mapper.shooting.get(entity);
         BodyComponent body = Mapper.body.get(entity);
 
-        lastShotTime += deltaTime;
+        // avoid waiting time for the first bullet
+        if (shooting.lastShotTime != -1) {
+            shooting.lastShotTime += deltaTime;
+        }
 
-        if (shooting.isShooting && lastShotTime > shooting.firePauseTime) {
-            lastShotTime = 0;
+        if (shooting.isShooting && (shooting.lastShotTime == -1 || shooting.lastShotTime > shooting.firePauseTime)) {
+            shooting.lastShotTime = 0;
             System.out.println(body.body.getPosition());
             Entity bullet = Bullet.create(world, 50, body.body.getPosition(), Mapper.player.has(entity));
 
             getEngine().addEntity(bullet);
         }
+
     }
 }

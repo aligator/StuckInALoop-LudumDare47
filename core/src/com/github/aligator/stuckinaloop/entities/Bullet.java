@@ -41,6 +41,7 @@ public class Bullet {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = poly;
+        fixtureDef.isSensor = true;
         bodyComponent.body.setUserData(e);
         bodyComponent.body.createFixture(fixtureDef);
         poly.dispose();
