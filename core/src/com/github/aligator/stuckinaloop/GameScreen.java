@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
-import com.github.aligator.stuckinaloop.entities.Enemy;
 import com.github.aligator.stuckinaloop.entities.Player;
 import com.github.aligator.stuckinaloop.handlers.B2dContactHandler;
 import com.github.aligator.stuckinaloop.handlers.DisposeComponentHandler;
@@ -52,7 +51,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(inputHandler);
 
         engine.addEntity(Player.create(world));
-        engine.addEntity(Enemy.create(world, -10f));
 
         engine.addSystem(renderingSystem);
         engine.addSystem(inputSystem);
@@ -62,6 +60,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new PhysicsSystem(world));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new CollisionSystem());
+        engine.addSystem(new EnemySpawningSystem(world));
         engine.addSystem(new DiscardingSystem());
 
 

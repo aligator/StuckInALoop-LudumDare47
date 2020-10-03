@@ -14,7 +14,7 @@ import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 public class Enemy {
     public final static float MOVE_SPEED = 20f;
 
-    public static Entity create(World world, float force) {
+    public static Entity create(World world, float force, float yPercentage, float firePauseTime) {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
@@ -27,7 +27,10 @@ public class Enemy {
         BodyDef bodyDef = new BodyDef();
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(RenderingSystem.getScreenSizeInMeters().x + texture.widthInMeters() / 2, texture.heightInMeters() / 2));
+
+        float screenY = RenderingSystem.getScreenSizeInMeters().y - texture.heightInMeters();
+
+        bodyDef.position.set(new Vector2(RenderingSystem.getScreenSizeInMeters().x + texture.widthInMeters() / 2, texture.heightInMeters() / 2 + screenY * yPercentage));
 
         bodyComponent.body = world.createBody(bodyDef);
 
@@ -45,7 +48,7 @@ public class Enemy {
 
         e.add(new EnemyComponent());
         e.add(new DiscardingComponent());
-        e.add(new ShootingComponent(true, 2f));
+        e.add(new ShootingComponent(true, firePauseTime));
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
