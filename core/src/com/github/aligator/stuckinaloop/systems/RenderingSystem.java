@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.github.aligator.stuckinaloop.components.BodyComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.TextureComponent;
@@ -15,11 +16,33 @@ public class RenderingSystem extends EntitySystem implements EntityListener {
     private OrthographicCamera cam;
     ImmutableArray<Entity> entities;
 
+    static final float PPM = 16.0f;
+    public static final float PIXELS_TO_METRES = 1.0f / PPM;
+    static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth() / PPM;//37.5f;
+    static final float FRUSTUM_HEIGHT = Gdx.graphics.getHeight() / PPM;//.0f;
+    private static Vector2 meterDimensions = new Vector2();
+    private static Vector2 pixelDimensions = new Vector2();
 
     public RenderingSystem(SpriteBatch batch) {
         this.batch = batch;
-        cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
+
+        cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
+        cam.position.set(FRUSTUM_WIDTH / 2f, FRUSTUM_HEIGHT / 2f, 0);
+    }
+
+    public static Vector2 getScreenSizeInMeters() {
+        meterDimensions.set(Gdx.graphics.getWidth() * PIXELS_TO_METRES,
+                Gdx.graphics.getHeight() * PIXELS_TO_METRES);
+        return meterDimensions;
+    }
+
+    public static Vector2 getScreenSizeInPixels() {
+        pixelDimensions.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        return pixelDimensions;
+    }
+
+    public static float PixelsToMeters(float pixelValue) {
+        return pixelValue * PIXELS_TO_METRES;
     }
 
     @Override
@@ -63,7 +86,7 @@ public class RenderingSystem extends EntitySystem implements EntityListener {
                     t.body.getPosition().x - originX, t.body.getPosition().y - originY,
                     originX, originY,
                     width, height,
-                    1, 1,
+                    PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
                     t.body.getTransform().getRotation());
         }
 

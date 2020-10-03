@@ -24,22 +24,22 @@ public class MovementSystem extends IteratingSystem {
         float y = body.body.getPosition().y + velocity.force.y * deltaTime;
 
         if (velocity.minBounds != null) {
-            if (x < velocity.minBounds.x + texture.region.getRegionWidth() / 2) {
-                x = velocity.minBounds.x + texture.region.getRegionWidth() / 2;
+            if (x < velocity.minBounds.x + texture.widthInMeters() / 2) {
+                x = velocity.minBounds.x + texture.widthInMeters() / 2;
             }
 
-            if (y < velocity.minBounds.y + texture.region.getRegionHeight() / 2) {
-                y = velocity.minBounds.y + texture.region.getRegionHeight() / 2;
+            if (y < velocity.minBounds.y + texture.heightInMeters() / 2) {
+                y = velocity.minBounds.y + texture.heightInMeters() / 2;
             }
         }
 
         if (velocity.maxBounds != null) {
-            if (x > velocity.maxBounds.x - texture.region.getRegionWidth() / 2) {
-                x = velocity.maxBounds.x - texture.region.getRegionWidth() / 2;
+            if (x > velocity.maxBounds.x - texture.widthInMeters() / 2) {
+                x = velocity.maxBounds.x - texture.widthInMeters() / 2;
             }
 
-            if (y > velocity.maxBounds.y - texture.region.getRegionHeight() / 2) {
-                y = velocity.maxBounds.y - texture.region.getRegionHeight() / 2;
+            if (y > velocity.maxBounds.y - texture.heightInMeters() / 2) {
+                y = velocity.maxBounds.y - texture.heightInMeters() / 2;
             }
         }
         body.body.setTransform(new Vector2(x, y), 0);
