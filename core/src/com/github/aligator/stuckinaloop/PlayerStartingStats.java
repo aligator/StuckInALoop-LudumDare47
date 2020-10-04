@@ -14,7 +14,7 @@ public class PlayerStartingStats {
     public boolean canCollect(PowerUpComponent.Type powerUpType) {
         switch (powerUpType) {
             case Life:
-                if (life >= 3) {
+                if (life >= 6) {
                     return false;
                 }
                 break;

@@ -64,8 +64,32 @@ public class HudSystem extends EntitySystem implements EntityListener {
         Assets.font24.draw(batch, "for next live:", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
         Assets.font24.draw(batch, "Live: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
         Assets.font24.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
-        Assets.font24.draw(batch, "Fire rate " + Math.round((1.0f - startingStats.firePauseTime) * 10), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
+        Assets.font24.draw(batch, "Fire rate " + Math.round((1.0f - startingStats.firePauseTime) * 10) + 1, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
 
+        batch.draw(Assets.lifePowerUp,
+                cam.viewportWidth - Assets.font24.getXHeight() * 12 - Assets.lifePowerUp.getRegionWidth() * 0.2f - 5,
+                cam.viewportHeight - Assets.font24.getLineHeight() * 4 + 3,
+                0f, 0f,
+                Assets.lifePowerUp.getRegionWidth(),
+                Assets.lifePowerUp.getRegionHeight(),
+                0.2f, 0.2f, 0f
+        );
+        batch.draw(Assets.damagePowerUp,
+                cam.viewportWidth - Assets.font24.getXHeight() * 12 - Assets.lifePowerUp.getRegionWidth() * 0.2f - 5,
+                cam.viewportHeight - Assets.font24.getLineHeight() * 5 + 3,
+                0f, 0f,
+                Assets.lifePowerUp.getRegionWidth(),
+                Assets.lifePowerUp.getRegionHeight(),
+                0.2f, 0.2f, 0f
+        );
+        batch.draw(Assets.fireRatePowerUp,
+                cam.viewportWidth - Assets.font24.getXHeight() * 12 - Assets.lifePowerUp.getRegionWidth() * 0.2f - 5,
+                cam.viewportHeight - Assets.font24.getLineHeight() * 6 + 3,
+                0f, 0f,
+                Assets.lifePowerUp.getRegionWidth(),
+                Assets.lifePowerUp.getRegionHeight(),
+                0.2f, 0.2f, 0f
+        );
         batch.end();
     }
 
