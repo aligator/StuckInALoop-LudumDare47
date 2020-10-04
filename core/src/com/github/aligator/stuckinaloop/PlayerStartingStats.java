@@ -11,20 +11,24 @@ public class PlayerStartingStats {
 
     public int restartCounter = 0;
 
+    public static final int MAX_LIFE = 15;
+    public static final float MAX_FIRE_PAUSE_TIME = 0.1f;
+    public static final int MAX_DAMAGE = 3;
+
     public boolean canCollect(PowerUpComponent.Type powerUpType) {
         switch (powerUpType) {
             case Life:
-                if (life >= 15) {
+                if (life >= MAX_LIFE) {
                     return false;
                 }
                 break;
             case FireRate:
-                if (firePauseTime <= 0.1f) {
+                if (firePauseTime <= MAX_FIRE_PAUSE_TIME) {
                     return false;
                 }
                 break;
             case Damage:
-                if (damage >= 3) {
+                if (damage >= MAX_DAMAGE) {
                     return false;
                 }
                 break;
