@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.github.aligator.stuckinaloop.win.WinScreen;
 
 public class StuckInALoop extends Game {
     public AssetManager assetManager;
@@ -21,8 +22,7 @@ public class StuckInALoop extends Game {
         GameScreen gameScreen = new GameScreen(batch, screenDispatcher);
         Screen winScreen = new WinScreen(batch, screenDispatcher, gameScreen);
         screenDispatcher.AddScreen(splashScreen);
-        // screenDispatcher.AddScreen(gameScreen);
-        gameScreen.startingStats.restartCounter = 10;
+        screenDispatcher.AddScreen(gameScreen);
         screenDispatcher.AddScreen(winScreen);
         setScreen(splashScreen);
     }

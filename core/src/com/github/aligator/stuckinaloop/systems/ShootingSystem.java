@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.World;
+import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.components.*;
 import com.github.aligator.stuckinaloop.entities.Bullet;
 
@@ -29,7 +30,7 @@ public class ShootingSystem extends IteratingSystem {
         if (shooting.isShooting && (shooting.lastShotTime == -1 || shooting.lastShotTime > shooting.firePauseTime)) {
             shooting.lastShotTime = 0;
             Entity bullet = Bullet.create(world, 50, body.body.getPosition(), Mapper.player.has(entity), Mapper.spaceShip.get(entity).damage);
-
+            Assets.shotSound.play();
             getEngine().addEntity(bullet);
         }
 

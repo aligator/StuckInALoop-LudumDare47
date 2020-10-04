@@ -28,6 +28,9 @@ public class Bullet {
                     texture.region = Assets.enemyBulletRed;
                     break;
             }
+
+            position.x = position.x - texture.widthInMeters();
+
         } else {
             switch (damage) {
                 case 1:
@@ -40,6 +43,8 @@ public class Bullet {
                     texture.region = Assets.playerBulletRed;
                     break;
             }
+
+            position.x = position.x + texture.widthInMeters();
         }
 
         BodyComponent bodyComponent = new BodyComponent();

@@ -2,6 +2,7 @@ package com.github.aligator.stuckinaloop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +29,9 @@ public class Assets {
     public static TextureRegion damagePowerUp;
     public static TextureRegion fireRatePowerUp;
 
+    public static Sound shotSound;
+    public static Sound explosionSound;
+
     public static BitmapFont font24;
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
@@ -53,11 +57,10 @@ public class Assets {
 
         assetManager = new AssetManager();
 
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.wav"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
+
         return assetManager;
-    }
-
-    private static void loadFont() {
-
     }
 
     private static void loadSplash() {
@@ -99,4 +102,5 @@ public class Assets {
         damagePowerUp = new TextureRegion(new Texture("damage.png"));
         fireRatePowerUp = new TextureRegion(new Texture("fire_rate.png"));
     }
+
 }

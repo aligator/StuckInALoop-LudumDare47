@@ -3,6 +3,7 @@ package com.github.aligator.stuckinaloop.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
 import com.github.aligator.stuckinaloop.components.*;
 
@@ -95,6 +96,7 @@ public class CollisionSystem extends IteratingSystem {
     private void collideWithBullet(Entity otherEntity, Entity bulletEntity) {
         BulletComponent bullet = Mapper.bullet.get(bulletEntity);
 
+
         if (!Mapper.bullet.has(otherEntity) &&
                 (bullet.isFromPlayer && Mapper.enemy.has(otherEntity) ||
                         !bullet.isFromPlayer && Mapper.player.has(otherEntity))
@@ -104,6 +106,7 @@ public class CollisionSystem extends IteratingSystem {
             if (Mapper.spaceShip.has(otherEntity)) {
                 SpaceShipComponent spaceShip = Mapper.spaceShip.get(otherEntity);
                 spaceShip.life -= bullet.damage;
+                Assets.explosionSound.play();
             }
             return;
         }
@@ -113,6 +116,7 @@ public class CollisionSystem extends IteratingSystem {
             if (bullet.isFromPlayer != bullet2.isFromPlayer) {
                 getEngine().removeEntity(otherEntity);
                 getEngine().removeEntity(bulletEntity);
+                Assets.explosionSound.play();
             }
 
             return;
