@@ -44,7 +44,7 @@ public class Enemy {
             case 1:
                 texture.region = Assets.enemyGreen;
                 break;
-            case 2:
+            case 3:
                 texture.region = Assets.enemyYellow;
                 break;
             default:

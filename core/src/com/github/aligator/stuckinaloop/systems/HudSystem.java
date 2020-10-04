@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
-import com.github.aligator.stuckinaloop.components.BossComponent;
-import com.github.aligator.stuckinaloop.components.Mapper;
-import com.github.aligator.stuckinaloop.components.PlayerComponent;
-import com.github.aligator.stuckinaloop.components.SpaceShipComponent;
+import com.github.aligator.stuckinaloop.components.*;
 
 public class HudSystem extends EntitySystem implements EntityListener {
 
@@ -78,9 +75,22 @@ public class HudSystem extends EntitySystem implements EntityListener {
         Assets.font24.draw(batch, "Killed enemies: " + playerComp.kills + " / " + EnemySpawningSystem.ENEMY_COUNT, 10, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
         Assets.font24.draw(batch, "Experience", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight);
         Assets.font24.draw(batch, "for next live:", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
-        Assets.font24.draw(batch, "Health: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
-        Assets.font24.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
-        Assets.font24.draw(batch, "Fire rate " + (Math.round((1.0f - startingStats.firePauseTime) * 10) + 1), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
+
+        if (startingStats.canCollect(PowerUpComponent.Type.Life)) {
+            Assets.font24.draw(batch, "Health: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
+        } else {
+            Assets.font24Green.draw(batch, "Health: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
+        }
+        if (startingStats.canCollect(PowerUpComponent.Type.Damage)) {
+            Assets.font24.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
+        } else {
+            Assets.font24Green.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
+        }
+        if (startingStats.canCollect(PowerUpComponent.Type.FireRate)) {
+            Assets.font24.draw(batch, "Fire rate " + (Math.round((1.0f - startingStats.firePauseTime) * 10) + 1), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
+        } else {
+            Assets.font24Green.draw(batch, "Fire rate " + (Math.round((1.0f - startingStats.firePauseTime) * 10) + 1), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
+        }
 
         batch.draw(Assets.lifePowerUp,
                 cam.viewportWidth - Assets.font24.getXHeight() * 12 - Assets.lifePowerUp.getRegionWidth() * 0.2f - 5,

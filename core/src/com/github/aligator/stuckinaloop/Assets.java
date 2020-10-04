@@ -34,6 +34,7 @@ public class Assets {
     public static Sound explosionSound;
 
     public static BitmapFont font24;
+    public static BitmapFont font24Green;
     public static BitmapFont font48;
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
@@ -56,6 +57,9 @@ public class Assets {
         parameter.shadowOffsetY = 3;
         parameter.shadowColor = new Color(0, 0.5f, 0, 0.75f);
         font24 = generator.generateFont(parameter); // font size 24 pixels
+
+        parameter.color = Color.GREEN;
+        font24Green = generator.generateFont(parameter); // font size 24 pixels
 
         parameter.size = 48;
         font48 = generator.generateFont(parameter); // font size 24 pixels

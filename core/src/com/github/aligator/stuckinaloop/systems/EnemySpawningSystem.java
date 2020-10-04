@@ -58,30 +58,30 @@ public class EnemySpawningSystem extends EntitySystem {
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
         } else if (fullTime >= 7 && lastStep < 7) {
             lastStep = 7;
-            getEngine().addEntity(Enemy.create(world, -8f, 0f, 2, 2, 2));
+            getEngine().addEntity(Enemy.create(world, -8f, 0f, 2, 3, 2));
             getEngine().addEntity(Enemy.create(world, -9f, 1f, 1.5f, 1, 1));
         } else if (fullTime >= 9 && lastStep < 9) {
             lastStep = 9;
-            getEngine().addEntity(Enemy.create(world, -4f, 0.7f, 0.6f, 3, 1));
+            getEngine().addEntity(Enemy.create(world, -4f, 0.7f, 0.6f, 6, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 2));
         } else if (fullTime >= 12 && lastStep < 12) {
             lastStep = 12;
-            getEngine().addEntity(Enemy.create(world, -6f, 0.3f, 2, 2, 1));
+            getEngine().addEntity(Enemy.create(world, -6f, 0.3f, 2, 3, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 2));
         } else if (fullTime >= 15 && lastStep < 15) {
             lastStep = 15;
-            getEngine().addEntity(Enemy.create(world, -12f, 0.9f, 2, 3, 3));
-            getEngine().addEntity(Enemy.create(world, -8f, 0.5f, 1.5f, 2, 1));
+            getEngine().addEntity(Enemy.create(world, -12f, 0.9f, 2, 6, 3));
+            getEngine().addEntity(Enemy.create(world, -8f, 0.5f, 1.5f, 3, 1));
         } else if (fullTime >= 19 && lastStep < 19) {
             lastStep = 19;
-            getEngine().addEntity(Enemy.create(world, -11f, 0.2f, 0.6f, 3, 1));
+            getEngine().addEntity(Enemy.create(world, -11f, 0.2f, 0.6f, 6, 1));
             getEngine().addEntity(Enemy.create(world, -5f, 0.5f, 1.5f, 1, 3));
         } else if (fullTime >= 23 && lastStep < 23) {
             lastStep = 23;
             getEngine().addEntity(Enemy.create(world, -10f, 1f, 2, 1, 1));
-            getEngine().addEntity(Enemy.create(world, -4f, 0.9f, 1.5f, 3, 2));
+            getEngine().addEntity(Enemy.create(world, -4f, 0.9f, 1.5f, 6, 2));
             getEngine().addEntity(Enemy.create(world, -8f, 0f, 1.5f, 1, 3));
-            getEngine().addEntity(Enemy.create(world, -9f, 0.3f, 1.5f, 2, 1));
+            getEngine().addEntity(Enemy.create(world, -9f, 0.3f, 1.5f, 3, 1));
         } else if (fullTime >= 30 && lastStep < 30) {
             // one harder enemy
             lastStep = 30;
@@ -89,33 +89,33 @@ public class EnemySpawningSystem extends EntitySystem {
         } else if (fullTime >= 40 && lastStep < 40) {
             lastStep = 40;
             getEngine().addEntity(Enemy.create(world, -9f, 0.7f, 1.6f, 1, 3));
-            getEngine().addEntity(Enemy.create(world, -10f, 0.2f, 1.5f, 3, 3));
+            getEngine().addEntity(Enemy.create(world, -10f, 0.2f, 1.5f, 6, 3));
         } else if (fullTime >= 43 && lastStep < 43) {
             lastStep = 43;
             getEngine().addEntity(Enemy.create(world, -3f, 0.6f, 2, 1, 1));
-            getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 2, 3));
+            getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 3, 3));
         } else if (fullTime >= 48 && lastStep < 48) {
             lastStep = 48;
             getEngine().addEntity(Enemy.create(world, -7f, 0.6f, 0.6f, 1, 2));
             getEngine().addEntity(Enemy.create(world, -9f, 1f, 1.8f, 1, 1));
         } else if (fullTime >= 50 && lastStep < 50 && getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size() == 0) {
             lastStep = 50;
-            getEngine().addEntity(Enemy.create(world, -10f, 0.6f, 2, 2, 3));
-            getEngine().addEntity(Enemy.create(world, -5f, 0.5f, 1.5f, 3, 2));
+            getEngine().addEntity(Enemy.create(world, -10f, 0.6f, 2, 3, 3));
+            getEngine().addEntity(Enemy.create(world, -5f, 0.5f, 1.5f, 6, 2));
         } else if (fullTime >= 53 && lastStep < 53) {
             lastStep = 53;
-            getEngine().addEntity(Enemy.create(world, -8f, 0.6f, 2, 2, 1));
+            getEngine().addEntity(Enemy.create(world, -8f, 0.6f, 2, 3, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
         } else if (fullTime >= 57 && lastStep < 57) {
             lastStep = 57;
-            getEngine().addEntity(Enemy.create(world, -6f, 0.3f, 2, 3, 3));
+            getEngine().addEntity(Enemy.create(world, -6f, 0.3f, 2, 6, 3));
             getEngine().addEntity(Enemy.create(world, -9f, 1f, 1.5f, 1, 3));
         } else if (fullTime >= 60 && lastStep < 60) {
             lastStep = 60;
-            getEngine().addEntity(Enemy.create(world, -4f, 0.4f, 2, 3, 3));
-            getEngine().addEntity(Enemy.create(world, -5f, 0.2f, 1.5f, 3, 3));
-            getEngine().addEntity(Enemy.create(world, -4f, 0.9f, 1f, 3, 3));
-            getEngine().addEntity(Enemy.create(world, -5f, 0f, 1f, 3, 3));
+            getEngine().addEntity(Enemy.create(world, -4f, 0.4f, 2, 6, 3));
+            getEngine().addEntity(Enemy.create(world, -5f, 0.2f, 1.5f, 6, 3));
+            getEngine().addEntity(Enemy.create(world, -4f, 0.9f, 1f, 6, 3));
+            getEngine().addEntity(Enemy.create(world, -5f, 0f, 1f, 6, 3));
         } else if (fullTime >= 65 && lastStep < 65) {
             // one harder enemy
             lastStep = 65;
