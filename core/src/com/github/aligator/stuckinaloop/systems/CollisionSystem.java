@@ -3,12 +3,16 @@ package com.github.aligator.stuckinaloop.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.github.aligator.stuckinaloop.PlayerStartingStats;
 import com.github.aligator.stuckinaloop.components.*;
 
 public class CollisionSystem extends IteratingSystem {
 
-    public CollisionSystem() {
+    private final PlayerStartingStats startingStats;
+
+    public CollisionSystem(PlayerStartingStats startingStats) {
         super(Family.all(CollisionComponent.class).one(BulletComponent.class, PowerUpComponent.class).get());
+        this.startingStats = startingStats;
     }
 
     protected void processBulletCollision(Entity entity, float deltaTime) {
@@ -49,19 +53,16 @@ public class CollisionSystem extends IteratingSystem {
 
                 switch (powerUp.type) {
                     case FireRate:
-                        if (Mapper.shooting.has(collision.collidedEntity)) {
-                            ShootingComponent shooting = Mapper.shooting.get(collision.collidedEntity);
-                            shooting.firePauseTime -= 0.1f;
-                            if (shooting.firePauseTime < 0.1f) {
-                                shooting.firePauseTime = 0.1f;
-                            }
+                        startingStats.firePauseTime -= 0.1f;
+                        if (startingStats.firePauseTime < 0.1f) {
+                            startingStats.firePauseTime = 0.1f;
                         }
                         break;
                     case Damage:
-                        playerSpaceShip.damage += 1;
+                        startingStats.damage += 1;
                         break;
                     case Life:
-                        playerSpaceShip.life += 1;
+                        startingStats.life += 1;
                         break;
                 }
 

@@ -22,11 +22,11 @@ public class PhysicsSystem extends IteratingSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        float frameTime = Math.min(deltaTime, 0.25f);
-        accumulator += frameTime;
-        if (accumulator >= MAX_STEP_TIME) {
-            world.step(deltaTime, 6, 2);
+        accumulator += Math.min(deltaTime, 0.25f);
+        while (accumulator >= MAX_STEP_TIME) {
             accumulator -= MAX_STEP_TIME;
+
+            world.step(deltaTime, 6, 2);
         }
     }
 

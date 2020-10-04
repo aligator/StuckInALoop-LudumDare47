@@ -24,17 +24,25 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private IScreenDispatcher dispatcher;
 
+    public PlayerStartingStats startingStats;
+
     public GameScreen(SpriteBatch batch, IScreenDispatcher dispatcher) {
         super();
         this.batch = batch;
         this.dispatcher = dispatcher;
+        this.startingStats = new PlayerStartingStats();
     }
 
     private void init() {
         Gdx.app.log("GameScreen", "Initializing");
+        Gdx.app.log("GameScreen", startingStats.toString());
         isInitialized = false;
 
         Box2D.init();
+
+        if (world != null) {
+            world.dispose();
+        }
         world = new World(new Vector2(0f, 0f), true);
 
         world.setContactListener(new B2dContactHandler());
@@ -50,33 +58,32 @@ public class GameScreen extends ScreenAdapter {
         inputHandler = new RawInputHandler(inputSystem);
         Gdx.input.setInputProcessor(inputHandler);
 
-        engine.addEntity(Player.create(world));
+        engine.addEntity(Player.create(world, startingStats));
 
         engine.addSystem(renderingSystem);
         engine.addSystem(inputSystem);
 
         engine.addSystem(new ShootingSystem(world));
 
-        engine.addSystem(new PhysicsSystem(world));
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new CollisionSystem(this.startingStats));
         engine.addSystem(new EnemySpawningSystem(world));
-        engine.addSystem(new KillSystem());
+        engine.addSystem(new KillSystem(this));
         engine.addSystem(new DiscardingSystem());
 
         engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+
+        engine.addSystem(new PhysicsSystem(world));
 
         isInitialized = true;
     }
 
     private void update(float delta) {
         engine.update(delta);
-        /*
-        elapsedTime += delta;
-        if(elapsedTime/1000f > secondsToSplash){
-            world.dispose();
-            dispatcher.endCurrentScreen();
-        }*/
+    }
+
+    public void restart() {
+        isInitialized = false;
     }
 
     @Override
