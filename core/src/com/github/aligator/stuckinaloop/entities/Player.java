@@ -33,7 +33,7 @@ public class Player {
         BodyDef bodyDef = new BodyDef();
 
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(texture.widthInMeters() / 2, texture.heightInMeters() / 2));
+        bodyDef.position.set(new Vector2(texture.widthInMeters() / 2, RenderingSystem.getScreenSizeInMeters().y / 2));
 
         bodyComponent.body = world.createBody(bodyDef);
 

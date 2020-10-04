@@ -30,7 +30,7 @@ public class Enemy {
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, 4.5f)));
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, -4.5f)));
-        enemy.add(new ShootingComponent(canons, true, 1f));
+        enemy.add(new ShootingComponent(canons, true, 0.9f));
 
         return enemy;
     }

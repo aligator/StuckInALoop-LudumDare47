@@ -11,6 +11,8 @@ public class PlayerStartingStats {
 
     public int restartCounter = 0;
 
+    public boolean random = false;
+
     public static final int MAX_LIFE = 15;
     public static final float MAX_FIRE_PAUSE_TIME = 0.1f;
     public static final int MAX_DAMAGE = 3;

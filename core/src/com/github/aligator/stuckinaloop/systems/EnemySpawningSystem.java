@@ -12,6 +12,8 @@ import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.PlayerComponent;
 import com.github.aligator.stuckinaloop.entities.Enemy;
 
+import java.util.Random;
+
 public class EnemySpawningSystem extends EntitySystem {
 
     public final static int ENEMY_COUNT = 34;
@@ -25,9 +27,14 @@ public class EnemySpawningSystem extends EntitySystem {
 
     private Entity player;
 
+    private Random robert;
+
+    private float nextSpawn = 0;
+
     public EnemySpawningSystem(World world, GameScreen gameScreen) {
         this.world = world;
         this.gameScreen = gameScreen;
+        this.robert = new Random();
     }
 
     @Override
@@ -47,13 +54,43 @@ public class EnemySpawningSystem extends EntitySystem {
         player = null;
     }
 
+    private void spawnRandom(float deltaTime) {
+        if (nextSpawn > 0) {
+            nextSpawn -= deltaTime;
+            return;
+        }
+
+        nextSpawn = 3 + ((float) robert.nextInt(5)) / 10f;
+
+        int live = robert.nextInt(3) + 1;
+
+        if (live == 2) {
+            live = 3;
+        }
+
+        if (live == 3) {
+            live = 6;
+        }
+
+        if (robert.nextInt(100) == 1) {
+            getEngine().addEntity(Enemy.createBoss(world, robert.nextInt(100)));
+        }
+
+        getEngine().addEntity(Enemy.create(world, -(((float) robert.nextInt(150)) / 10f), (((float) robert.nextInt(10)) / 10f), 2f - (((float) robert.nextInt(10)) / 10f), live, robert.nextInt(3) + 1));
+    }
+
     @Override
     public void update(float deltaTime) {
+        if (gameScreen.startingStats.random) {
+            spawnRandom(deltaTime);
+            return;
+        }
+
         fullTime += deltaTime;
 
         if (fullTime >= 3 && lastStep < 3) {
             lastStep = 3;
-           // getEngine().addEntity(Enemy.createBoss(world, 10));
+            // getEngine().addEntity(Enemy.createBoss(world, 10));
             getEngine().addEntity(Enemy.create(world, -10f, 0.91f, 2, 1, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
         } else if (fullTime >= 7 && lastStep < 7) {

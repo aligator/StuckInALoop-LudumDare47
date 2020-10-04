@@ -111,6 +111,11 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void win() {
+        startingStats.life = 1;
+        startingStats.damage = 1;
+        startingStats.firePauseTime = 1;
+
+        startingStats.random = true;
         dispatcher.endCurrentScreen();
     }
 
@@ -126,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         super.dispose();
-        world.dispose();
+        // disposing world causes an error
+        //world.dispose();
     }
 }

@@ -71,8 +71,14 @@ public class HudSystem extends EntitySystem implements EntityListener {
         SpaceShipComponent spaceShip = Mapper.spaceShip.get(player);
         PlayerComponent playerComp = Mapper.player.get(player);
 
+        String enemyCount = "" + EnemySpawningSystem.ENEMY_COUNT;
+        if (startingStats.random) {
+            enemyCount = "endless";
+        }
+
         Assets.font24.draw(batch, "Current health: " + spaceShip.life, 10, cam.viewportHeight);
-        Assets.font24.draw(batch, "Killed enemies: " + playerComp.kills + " / " + EnemySpawningSystem.ENEMY_COUNT, 10, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
+        Assets.font24.draw(batch, "Attempt:             " + startingStats.restartCounter, 10, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
+        Assets.font24.draw(batch, "Killed enemies:  " + playerComp.kills + " / " + enemyCount, 10, cam.viewportHeight - Assets.font24.getLineHeight() * 2);
         Assets.font24.draw(batch, "Experience for next live:", cam.viewportWidth - Assets.font24.getXHeight() * 23, cam.viewportHeight);
 
         if (startingStats.canCollect(PowerUpComponent.Type.Life)) {
