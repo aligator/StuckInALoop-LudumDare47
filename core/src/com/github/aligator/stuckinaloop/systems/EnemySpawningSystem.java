@@ -53,7 +53,7 @@ public class EnemySpawningSystem extends EntitySystem {
 
         if (fullTime >= 3 && lastStep < 3) {
             lastStep = 3;
-            //getEngine().addEntity(Enemy.createBoss(world, 10));
+           // getEngine().addEntity(Enemy.createBoss(world, 10));
             getEngine().addEntity(Enemy.create(world, -10f, 0.91f, 2, 1, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
         } else if (fullTime >= 7 && lastStep < 7) {
@@ -85,7 +85,7 @@ public class EnemySpawningSystem extends EntitySystem {
         } else if (fullTime >= 30 && lastStep < 30) {
             // one harder enemy
             lastStep = 30;
-            getEngine().addEntity(Enemy.createBoss(world, 10));
+            getEngine().addEntity(Enemy.createBoss(world, 40));
         } else if (fullTime >= 40 && lastStep < 40) {
             lastStep = 40;
             getEngine().addEntity(Enemy.create(world, -9f, 0.7f, 1.6f, 1, 3));
@@ -119,7 +119,7 @@ public class EnemySpawningSystem extends EntitySystem {
         } else if (fullTime >= 65 && lastStep < 65) {
             // one harder enemy
             lastStep = 65;
-            getEngine().addEntity(Enemy.createBoss(world, 30));
+            getEngine().addEntity(Enemy.createBoss(world, 100));
         } else if (lastStep >= 65 && getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size() == 0) {
             if (player != null) {
                 PlayerComponent playerComponent = Mapper.player.get(player);

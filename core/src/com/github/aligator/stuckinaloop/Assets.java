@@ -17,6 +17,7 @@ public class Assets {
     public static TextureRegion enemyGreen;
     public static TextureRegion enemyYellow;
     public static TextureRegion enemyRed;
+    public static TextureRegion enemyBoss;
     public static TextureRegion enemyBulletGreen;
     public static TextureRegion enemyBulletYellow;
     public static TextureRegion enemyBulletRed;
@@ -83,6 +84,9 @@ public class Assets {
 
         enemyRed = new TextureRegion(new Texture("enemy_red.png"));
         enemyRed.flip(true, false);
+
+        enemyBoss = new TextureRegion(new Texture("enemy_boss.png"));
+        enemyBoss.flip(true, false);
     }
 
     private static void loadBullets() {

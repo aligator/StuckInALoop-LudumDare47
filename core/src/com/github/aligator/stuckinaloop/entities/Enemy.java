@@ -16,12 +16,17 @@ import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 public class Enemy {
 
     public static Entity createBoss(World world, int live) {
-        Entity enemy = create(world, -3f, 0.5f, 1f, live, 3, 2f);
+        float scale = 1f;
+
+        TextureComponent texture = new TextureComponent();
+        texture.scale.set(scale, scale);
+        texture.region = Assets.enemyBoss;
+
+        Entity enemy = create(world, texture, -3f, 0.5f, live, 3, scale * 2);
 
         enemy.add(new BossComponent(live));
 
         Array<ShootingComponent.Canon> canons = new Array<>();
-        TextureComponent texture = Mapper.texture.get(enemy);
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, 4.5f)));
         canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, -4.5f)));
@@ -31,18 +36,7 @@ public class Enemy {
     }
 
     public static Entity create(World world, float force, float yPercentage, float firePauseTime, int live, int damage) {
-        Entity enemy = create(world, force, yPercentage, firePauseTime, live, damage, 1f);
-
-        Array<ShootingComponent.Canon> canons = new Array<>();
-        TextureComponent texture = Mapper.texture.get(enemy);
-        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
-        enemy.add(new ShootingComponent(canons, true, firePauseTime));
-
-        return enemy;
-    }
-
-    public static Entity create(World world, float force, float yPercentage, float firePauseTime, int live, int damage, float scale) {
-        Entity e = new Entity();
+        float scale = 1f;
 
         TextureComponent texture = new TextureComponent();
         texture.scale.set(scale, scale);
@@ -57,6 +51,18 @@ public class Enemy {
                 texture.region = Assets.enemyRed;
                 break;
         }
+
+        Entity enemy = create(world, texture, force, yPercentage, live, damage, scale);
+
+        Array<ShootingComponent.Canon> canons = new Array<>();
+        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
+        enemy.add(new ShootingComponent(canons, true, firePauseTime));
+
+        return enemy;
+    }
+
+    public static Entity create(World world, TextureComponent texture, float force, float yPercentage, int live, int damage, float collisionBoxScale) {
+        Entity e = new Entity();
 
         VelocityComponent velocity = new VelocityComponent();
 
@@ -77,7 +83,7 @@ public class Enemy {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.isSensor = true;
 
-        new BodyEditorLoader(Gdx.files.internal("box2d.json")).attachFixture(bodyComponent.body, "spaceShip", fixtureDef, 5.0625f * scale, 4.8125f * scale, true);
+        new BodyEditorLoader(Gdx.files.internal("box2d.json")).attachFixture(bodyComponent.body, "spaceShip", fixtureDef, 5.0625f * collisionBoxScale, 4.8125f * collisionBoxScale, true);
 
         bodyComponent.body.setUserData(e);
         bodyComponent.body.createFixture(fixtureDef);
