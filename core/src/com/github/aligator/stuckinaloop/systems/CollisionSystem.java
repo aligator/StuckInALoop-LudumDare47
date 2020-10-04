@@ -3,17 +3,21 @@ package com.github.aligator.stuckinaloop.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
 import com.github.aligator.stuckinaloop.components.*;
+import com.github.aligator.stuckinaloop.entities.Explosion;
 
 public class CollisionSystem extends IteratingSystem {
 
     private final PlayerStartingStats startingStats;
+    private final World world;
 
-    public CollisionSystem(PlayerStartingStats startingStats) {
+    public CollisionSystem(World world, PlayerStartingStats startingStats) {
         super(Family.all(CollisionComponent.class).one(BulletComponent.class, PowerUpComponent.class, PlayerComponent.class).get());
         this.startingStats = startingStats;
+        this.world = world;
     }
 
     @Override
@@ -96,7 +100,6 @@ public class CollisionSystem extends IteratingSystem {
     private void collideWithBullet(Entity otherEntity, Entity bulletEntity) {
         BulletComponent bullet = Mapper.bullet.get(bulletEntity);
 
-
         if (!Mapper.bullet.has(otherEntity) &&
                 (bullet.isFromPlayer && Mapper.enemy.has(otherEntity) ||
                         !bullet.isFromPlayer && Mapper.player.has(otherEntity))
@@ -114,8 +117,12 @@ public class CollisionSystem extends IteratingSystem {
         if (Mapper.bullet.has(otherEntity)) {
             BulletComponent bullet2 = Mapper.bullet.get(otherEntity);
             if (bullet.isFromPlayer != bullet2.isFromPlayer) {
+                BodyComponent bulletBody1 = Mapper.body.get(bulletEntity);
+                getEngine().addEntity(Explosion.create(world, bulletBody1.body.getPosition()));
+
                 getEngine().removeEntity(otherEntity);
                 getEngine().removeEntity(bulletEntity);
+
                 Assets.explosionSound.play();
             }
 

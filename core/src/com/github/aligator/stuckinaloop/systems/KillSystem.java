@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.GameScreen;
 import com.github.aligator.stuckinaloop.components.*;
+import com.github.aligator.stuckinaloop.entities.Explosion;
 import com.github.aligator.stuckinaloop.entities.PowerUp;
 
 import java.util.Random;
@@ -16,13 +18,15 @@ public class KillSystem extends IteratingSystem {
     private final static int powerUpProbability = 3;
     private final Random robert;
     private final GameScreen gameScreen;
+    private final World world;
     private Entity player;
 
-    public KillSystem(GameScreen gameScreen) {
+    public KillSystem(GameScreen gameScreen, World world) {
         super(Family.all(SpaceShipComponent.class).get());
 
         robert = new Random();
         this.gameScreen = gameScreen;
+        this.world = world;
     }
 
     @Override
@@ -50,6 +54,9 @@ public class KillSystem extends IteratingSystem {
             if (Mapper.enemy.has(entity) && Mapper.body.has(entity)) {
                 BodyComponent body = Mapper.body.get(entity);
                 Mapper.player.get(player).kills++;
+
+
+                getEngine().addEntity(Explosion.create(world, body.body.getPosition()));
 
                 if (robert.nextInt(powerUpProbability) == 0) {
                     PowerUpComponent.Type type = PowerUpComponent.Type.values()[robert.nextInt(PowerUpComponent.Type.values().length)];

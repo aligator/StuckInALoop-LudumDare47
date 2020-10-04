@@ -14,6 +14,7 @@ public class Assets {
     public static AssetManager assetManager;
     public static TextureRegion splashScreen;
     public static TextureRegion player;
+    public static TextureRegion explosion;
     public static TextureRegion enemyGreen;
     public static TextureRegion enemyYellow;
     public static TextureRegion enemyRed;
@@ -44,6 +45,7 @@ public class Assets {
         loadEnemy();
         loadBullets();
         loadPowerUps();
+        loadExplosion();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("truetypefont/DroidSans.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -110,4 +112,7 @@ public class Assets {
         fireRatePowerUp = new TextureRegion(new Texture("fire_rate.png"));
     }
 
+    private static void loadExplosion() {
+        explosion = new TextureRegion(new Texture("explosion.png"));
+    }
 }

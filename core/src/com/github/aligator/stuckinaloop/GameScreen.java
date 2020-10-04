@@ -66,11 +66,12 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addSystem(new BossSystem());
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new CollisionSystem(startingStats));
+        engine.addSystem(new CollisionSystem(world, startingStats));
         engine.addSystem(new EnemySpawningSystem(world, this));
-        engine.addSystem(new KillSystem(this));
+        engine.addSystem(new KillSystem(this, world));
         engine.addSystem(new PowerUpSystem(startingStats));
         engine.addSystem(new DiscardingSystem());
+        engine.addSystem(new ExplosionSystem());
 
         HudSystem hudSystem = new HudSystem(batch, startingStats);
         engine.addEntityListener(hudSystem);
