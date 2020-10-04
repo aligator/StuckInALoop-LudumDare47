@@ -71,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(new KillSystem(this));
         engine.addSystem(new DiscardingSystem());
 
-        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+        //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
 
         engine.addSystem(new PhysicsSystem(world));
 

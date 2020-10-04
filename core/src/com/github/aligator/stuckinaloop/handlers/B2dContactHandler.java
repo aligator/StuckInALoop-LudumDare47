@@ -37,7 +37,8 @@ public class B2dContactHandler implements ContactListener {
             // set the CollisionEntity of the component
             if (colA != null) {
                 colA.collidedEntity = colEnt;
-            } else if (colB != null) {
+            }
+            if (colB != null) {
                 colB.collidedEntity = ent;
             }
         }

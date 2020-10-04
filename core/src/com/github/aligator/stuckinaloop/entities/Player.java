@@ -46,6 +46,7 @@ public class Player {
         poly.dispose();
 
         e.add(new PlayerComponent());
+        e.add(new CollisionComponent());
         e.add(new ShootingComponent(false, startingStats.firePauseTime));
         e.add(new SpaceShipComponent(startingStats.life, startingStats.damage));
         e.add(bodyComponent);

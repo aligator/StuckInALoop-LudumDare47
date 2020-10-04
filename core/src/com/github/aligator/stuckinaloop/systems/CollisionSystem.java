@@ -11,77 +11,112 @@ public class CollisionSystem extends IteratingSystem {
     private final PlayerStartingStats startingStats;
 
     public CollisionSystem(PlayerStartingStats startingStats) {
-        super(Family.all(CollisionComponent.class).one(BulletComponent.class, PowerUpComponent.class).get());
+        super(Family.all(CollisionComponent.class).one(BulletComponent.class, PowerUpComponent.class, PlayerComponent.class).get());
         this.startingStats = startingStats;
-    }
-
-    protected void processBulletCollision(Entity entity, float deltaTime) {
-        BulletComponent bullet = Mapper.bullet.get(entity);
-        CollisionComponent collision = Mapper.collision.get(entity);
-
-        if (collision.collidedEntity != null) {
-            if (bullet.isFromPlayer && Mapper.enemy.has(collision.collidedEntity) ||
-                    !bullet.isFromPlayer && Mapper.player.has(collision.collidedEntity)
-            ) {
-                getEngine().removeEntity(entity);
-
-                if (Mapper.spaceShip.has(collision.collidedEntity)) {
-                    SpaceShipComponent spaceShip = Mapper.spaceShip.get(collision.collidedEntity);
-                    spaceShip.life -= bullet.damage;
-                }
-            }
-
-            if (Mapper.bullet.has(collision.collidedEntity)) {
-                BulletComponent bullet2 = Mapper.bullet.get(collision.collidedEntity);
-                if (bullet.isFromPlayer != bullet2.isFromPlayer) {
-                    getEngine().removeEntity(collision.collidedEntity);
-                    getEngine().removeEntity(entity);
-                }
-            }
-
-            collision.collidedEntity = null; // collision handled, reset component
-        }
-    }
-
-    protected void processPowerUpCollision(Entity entity, float deltaTime) {
-        PowerUpComponent powerUp = Mapper.powerUp.get(entity);
-        CollisionComponent collision = Mapper.collision.get(entity);
-
-        if (collision.collidedEntity != null) {
-            if (Mapper.player.has(collision.collidedEntity) && Mapper.spaceShip.has(collision.collidedEntity)) {
-                SpaceShipComponent playerSpaceShip = Mapper.spaceShip.get(collision.collidedEntity);
-
-                switch (powerUp.type) {
-                    case FireRate:
-                        startingStats.firePauseTime -= 0.1f;
-                        if (startingStats.firePauseTime < 0.1f) {
-                            startingStats.firePauseTime = 0.1f;
-                        }
-                        break;
-                    case Damage:
-                        startingStats.damage += 1;
-                        break;
-                    case Life:
-                        startingStats.life += 1;
-                        break;
-                }
-
-                getEngine().removeEntity(entity);
-            }
-
-            collision.collidedEntity = null; // collision handled, reset component
-        }
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        if (Mapper.bullet.has(entity)) {
-            processBulletCollision(entity, deltaTime);
+        CollisionComponent collision = Mapper.collision.get(entity);
+
+        if (collision.collidedEntity != null) {
+            // sve collidedEntity before cleanup
+            Entity collidedEntity = collision.collidedEntity;
+
+            // clean up collision
+            collision.collidedEntity = null;
+            CollisionComponent collision2 = Mapper.collision.get(collidedEntity);
+            if (collision2 != null) {
+                collision2.collidedEntity = null;
+            }
+
+            // any of them is a bullet
+            if (Mapper.bullet.has(entity)) {
+                collideWithBullet(collidedEntity, entity);
+                return;
+            } else if (Mapper.bullet.has(collidedEntity)) {
+                collideWithBullet(entity, collidedEntity);
+                return;
+            }
+
+            // any of them is a power up and the other the player
+            if (Mapper.powerUp.has(entity) && Mapper.player.has(collidedEntity)) {
+                collectPowerUp(entity);
+                return;
+            } else if (Mapper.powerUp.has(collidedEntity) && Mapper.player.has(entity)) {
+                collectPowerUp(collidedEntity);
+                return;
+            }
+
+            // any of them is a player and the other is an enemy
+            if (Mapper.player.has(entity) && Mapper.enemy.has(collidedEntity)) {
+                collideWithEnemy(entity, collidedEntity);
+                return;
+            } else if (Mapper.enemy.has(collidedEntity) && Mapper.player.has(entity)) {
+                collideWithEnemy(collidedEntity, entity);
+                return;
+            }
+        }
+    }
+
+
+    private void collectPowerUp(Entity powerUpEntity) {
+        PowerUpComponent powerUp = Mapper.powerUp.get(powerUpEntity);
+
+        switch (powerUp.type) {
+            case FireRate:
+                startingStats.firePauseTime -= 0.1f;
+                if (startingStats.firePauseTime < 0.1f) {
+                    startingStats.firePauseTime = 0.1f;
+                }
+                break;
+            case Damage:
+                startingStats.damage += 1;
+                break;
+            case Life:
+                startingStats.life += 1;
+                break;
+        }
+
+
+        getEngine().removeEntity(powerUpEntity);
+    }
+
+
+    private void collideWithEnemy(Entity playerEntity, Entity enemyEntity) {
+        SpaceShipComponent enemySpaceShip = Mapper.spaceShip.get(enemyEntity);
+        SpaceShipComponent playerSpaceShip = Mapper.spaceShip.get(playerEntity);
+
+        --enemySpaceShip.life;
+        --playerSpaceShip.life;
+    }
+
+    private void collideWithBullet(Entity otherEntity, Entity bulletEntity) {
+        BulletComponent bullet = Mapper.bullet.get(bulletEntity);
+
+        if (!Mapper.bullet.has(otherEntity) &&
+                (bullet.isFromPlayer && Mapper.enemy.has(otherEntity) ||
+                        !bullet.isFromPlayer && Mapper.player.has(otherEntity))
+        ) {
+            getEngine().removeEntity(bulletEntity);
+
+            if (Mapper.spaceShip.has(otherEntity)) {
+                SpaceShipComponent spaceShip = Mapper.spaceShip.get(otherEntity);
+                spaceShip.life -= bullet.damage;
+            }
             return;
         }
-        if (Mapper.powerUp.has(entity)) {
-            processPowerUpCollision(entity, deltaTime);
+
+        if (Mapper.bullet.has(otherEntity)) {
+            BulletComponent bullet2 = Mapper.bullet.get(otherEntity);
+            if (bullet.isFromPlayer != bullet2.isFromPlayer) {
+                getEngine().removeEntity(otherEntity);
+                getEngine().removeEntity(bulletEntity);
+            }
+
             return;
         }
+
+
     }
 }

@@ -17,9 +17,29 @@ public class Bullet {
         TextureComponent texture = new TextureComponent();
         if (!isFromPlayer) {
             force = -force;
-            texture.region = Assets.enemyBullet;
+            switch (damage) {
+                case 1:
+                    texture.region = Assets.enemyBulletGreen;
+                    break;
+                case 2:
+                    texture.region = Assets.enemyBulletYellow;
+                    break;
+                default:
+                    texture.region = Assets.enemyBulletRed;
+                    break;
+            }
         } else {
-            texture.region = Assets.playerBullet;
+            switch (damage) {
+                case 1:
+                    texture.region = Assets.playerBulletGreen;
+                    break;
+                case 2:
+                    texture.region = Assets.playerBulletYellow;
+                    break;
+                default:
+                    texture.region = Assets.playerBulletRed;
+                    break;
+            }
         }
 
         BodyComponent bodyComponent = new BodyComponent();

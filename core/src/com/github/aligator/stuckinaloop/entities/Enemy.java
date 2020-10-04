@@ -12,11 +12,22 @@ import com.github.aligator.stuckinaloop.components.*;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
 public class Enemy {
-    public static Entity create(World world, float force, float yPercentage, float firePauseTime) {
+    public static Entity create(World world, float force, float yPercentage, float firePauseTime, int live, int damage) {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
-        texture.region = Assets.enemy;
+
+        switch (live) {
+            case 1:
+                texture.region = Assets.enemyGreen;
+                break;
+            case 2:
+                texture.region = Assets.enemyYellow;
+                break;
+            default:
+                texture.region = Assets.enemyRed;
+                break;
+        }
 
         VelocityComponent velocity = new VelocityComponent();
 
@@ -46,7 +57,7 @@ public class Enemy {
 
         e.add(new EnemyComponent());
         e.add(new DiscardingComponent());
-        e.add(new SpaceShipComponent());
+        e.add(new SpaceShipComponent(live, damage));
         e.add(new ShootingComponent(true, firePauseTime));
         e.add(bodyComponent);
         e.add(velocity);

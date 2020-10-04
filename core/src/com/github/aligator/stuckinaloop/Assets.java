@@ -10,9 +10,15 @@ public class Assets {
     public static AssetManager assetManager;
     public static TextureRegion splashScreen;
     public static TextureRegion player;
-    public static TextureRegion enemy;
-    public static TextureRegion enemyBullet;
-    public static TextureRegion playerBullet;
+    public static TextureRegion enemyGreen;
+    public static TextureRegion enemyYellow;
+    public static TextureRegion enemyRed;
+    public static TextureRegion enemyBulletGreen;
+    public static TextureRegion enemyBulletYellow;
+    public static TextureRegion enemyBulletRed;
+    public static TextureRegion playerBulletGreen;
+    public static TextureRegion playerBulletYellow;
+    public static TextureRegion playerBulletRed;
 
     public static TextureRegion lifePowerUp;
     public static TextureRegion damagePowerUp;
@@ -43,15 +49,29 @@ public class Assets {
     }
 
     private static void loadEnemy() {
-        enemy = new TextureRegion(new Texture("enemy.png"));
-        enemy.flip(true, false);
+        enemyGreen = new TextureRegion(new Texture("enemy_green.png"));
+        enemyGreen.flip(true, false);
+
+        enemyYellow = new TextureRegion(new Texture("enemy_yellow.png"));
+        enemyYellow.flip(true, false);
+
+        enemyRed = new TextureRegion(new Texture("enemy_red.png"));
+        enemyRed.flip(true, false);
     }
 
     private static void loadBullets() {
-        enemyBullet = new TextureRegion(new Texture("bullet.png"));
-        enemyBullet.flip(true, false);
+        enemyBulletGreen = new TextureRegion(new Texture("bullet_green.png"));
+        enemyBulletGreen.flip(true, false);
 
-        playerBullet = new TextureRegion(new Texture("bullet.png"));
+        enemyBulletYellow = new TextureRegion(new Texture("bullet_yellow.png"));
+        enemyBulletYellow.flip(true, false);
+
+        enemyBulletRed = new TextureRegion(new Texture("bullet_red.png"));
+        enemyBulletRed.flip(true, false);
+
+        playerBulletGreen = new TextureRegion(new Texture("bullet_green.png"));
+        playerBulletYellow = new TextureRegion(new Texture("bullet_yellow.png"));
+        playerBulletRed = new TextureRegion(new Texture("bullet_red.png"));
     }
 
     private static void loadPowerUps() {
