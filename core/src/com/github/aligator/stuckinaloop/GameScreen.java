@@ -25,6 +25,8 @@ public class GameScreen extends ScreenAdapter {
     private IScreenDispatcher dispatcher;
 
     public PlayerStartingStats startingStats;
+    public boolean wasPaused = false;
+
 
     public GameScreen(SpriteBatch batch, IScreenDispatcher dispatcher) {
         super();
@@ -74,13 +76,28 @@ public class GameScreen extends ScreenAdapter {
         //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
         engine.addSystem(new RenderingSystem(batch));
 
-        engine.addSystem(new PhysicsSystem(world));
+        engine.addSystem(new PhysicsSystem(world, this));
 
         isInitialized = true;
     }
 
     private void update(float delta) {
+        if (wasPaused) {
+            delta = 0;
+            wasPaused = false;
+        }
         engine.update(delta);
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        wasPaused = true;
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
     }
 
     public void restart() {

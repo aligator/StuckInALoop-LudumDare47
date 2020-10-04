@@ -58,11 +58,11 @@ public class HudSystem extends EntitySystem implements EntityListener {
         SpaceShipComponent spaceShip = Mapper.spaceShip.get(player);
         PlayerComponent playerComp = Mapper.player.get(player);
 
-        Assets.font24.draw(batch, "Current lives: " + spaceShip.life, 10, cam.viewportHeight);
+        Assets.font24.draw(batch, "Current health: " + spaceShip.life, 10, cam.viewportHeight);
         Assets.font24.draw(batch, "Killed enemies: " + playerComp.kills + " / " + EnemySpawningSystem.ENEMY_COUNT, 10, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
         Assets.font24.draw(batch, "Experience", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight);
         Assets.font24.draw(batch, "for next live:", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
-        Assets.font24.draw(batch, "Live: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
+        Assets.font24.draw(batch, "Health: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
         Assets.font24.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
         Assets.font24.draw(batch, "Fire rate " + (Math.round((1.0f - startingStats.firePauseTime) * 10) + 1), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
 

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.World;
+import com.github.aligator.stuckinaloop.GameScreen;
 import com.github.aligator.stuckinaloop.components.BodyComponent;
 
 public class PhysicsSystem extends IteratingSystem {
@@ -12,11 +13,13 @@ public class PhysicsSystem extends IteratingSystem {
     private static float accumulator = 0f;
 
     private World world;
+    private GameScreen gameScreen;
 
-    public PhysicsSystem(World world) {
+    public PhysicsSystem(World world, GameScreen gameScreen) {
         super(Family.all(BodyComponent.class).get());
 
         this.world = world;
+        this.gameScreen = gameScreen;
     }
 
     @Override
