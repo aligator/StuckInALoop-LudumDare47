@@ -18,9 +18,12 @@ public class StuckInALoop extends Game {
         batch = new SpriteBatch();
         screenDispatcher = new ScreenDispatcher();
         Screen splashScreen = new SplashScreen(batch, screenDispatcher);
-        Screen gameScreen = new GameScreen(batch, screenDispatcher);
+        GameScreen gameScreen = new GameScreen(batch, screenDispatcher);
+        Screen winScreen = new WinScreen(batch, screenDispatcher, gameScreen);
         screenDispatcher.AddScreen(splashScreen);
-        screenDispatcher.AddScreen(gameScreen);
+        // screenDispatcher.AddScreen(gameScreen);
+        gameScreen.startingStats.restartCounter = 10;
+        screenDispatcher.AddScreen(winScreen);
         setScreen(splashScreen);
     }
 

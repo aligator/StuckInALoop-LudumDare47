@@ -63,21 +63,22 @@ public class CollisionSystem extends IteratingSystem {
     private void collectPowerUp(Entity powerUpEntity) {
         PowerUpComponent powerUp = Mapper.powerUp.get(powerUpEntity);
 
-        switch (powerUp.type) {
-            case FireRate:
-                startingStats.firePauseTime -= 0.1f;
-                if (startingStats.firePauseTime < 0.1f) {
-                    startingStats.firePauseTime = 0.1f;
-                }
-                break;
-            case Damage:
-                startingStats.damage += 1;
-                break;
-            case Life:
-                startingStats.life += 1;
-                break;
+        if (startingStats.canCollect(powerUp.type)) {
+            switch (powerUp.type) {
+                case FireRate:
+                    startingStats.firePauseTime -= 0.1f;
+                    if (startingStats.firePauseTime < 0.1f) {
+                        startingStats.firePauseTime = 0.1f;
+                    }
+                    break;
+                case Damage:
+                    startingStats.damage += 1;
+                    break;
+                case Life:
+                    startingStats.life += 1;
+                    break;
+            }
         }
-
 
         getEngine().removeEntity(powerUpEntity);
     }

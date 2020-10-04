@@ -51,8 +51,6 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addEntityListener(new DisposeComponentHandler(world));
 
-        RenderingSystem renderingSystem = new RenderingSystem(batch);
-
         InputSystem inputSystem = new InputSystem();
 
         inputHandler = new RawInputHandler(inputSystem);
@@ -60,18 +58,21 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addEntity(Player.create(world, startingStats));
 
-        engine.addSystem(renderingSystem);
         engine.addSystem(inputSystem);
 
         engine.addSystem(new ShootingSystem(world));
 
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new CollisionSystem(this.startingStats));
-        engine.addSystem(new EnemySpawningSystem(world));
+        engine.addSystem(new CollisionSystem(startingStats));
+        engine.addSystem(new EnemySpawningSystem(world, this));
         engine.addSystem(new KillSystem(this));
+        engine.addSystem(new PowerUpSystem(startingStats));
         engine.addSystem(new DiscardingSystem());
 
+        engine.addSystem(new HudSystem(batch, startingStats));
+
         //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
+        engine.addSystem(new RenderingSystem(batch));
 
         engine.addSystem(new PhysicsSystem(world));
 
@@ -83,7 +84,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void restart() {
+        startingStats.restartCounter++;
         isInitialized = false;
+    }
+
+    public void win() {
+        dispatcher.endCurrentScreen();
     }
 
     @Override

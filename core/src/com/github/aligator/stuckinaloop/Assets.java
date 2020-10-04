@@ -1,12 +1,16 @@
 package com.github.aligator.stuckinaloop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Assets {
 
-    //private static final String FONT = "fonts/courier-new-bold-32.fnt";
+    private static final String FONT = "fonts/courier-new-bold-32.fnt";
     public static AssetManager assetManager;
     public static TextureRegion splashScreen;
     public static TextureRegion player;
@@ -24,6 +28,7 @@ public class Assets {
     public static TextureRegion damagePowerUp;
     public static TextureRegion fireRatePowerUp;
 
+    public static BitmapFont font24;
     //private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     //private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
 
@@ -35,9 +40,24 @@ public class Assets {
         loadBullets();
         loadPowerUps();
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("truetypefont/DroidSans.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 24;
+        parameter.borderWidth = 1;
+        parameter.color = Color.YELLOW;
+        parameter.shadowOffsetX = 3;
+        parameter.shadowOffsetY = 3;
+        parameter.shadowColor = new Color(0, 0.5f, 0, 0.75f);
+        font24 = generator.generateFont(parameter); // font size 24 pixels
+        generator.dispose();
+
         assetManager = new AssetManager();
 
         return assetManager;
+    }
+
+    private static void loadFont() {
+
     }
 
     private static void loadSplash() {
