@@ -11,12 +11,12 @@ import com.github.aligator.stuckinaloop.entities.PowerUp;
 
 import java.util.Random;
 
-public class SpaceShipSystem extends IteratingSystem {
+public class KillSystem extends IteratingSystem {
 
     private final static int powerUpProbability = 3;
     private final Random robert;
 
-    public SpaceShipSystem() {
+    public KillSystem() {
         super(Family.all(SpaceShipComponent.class).get());
         robert = new Random();
     }

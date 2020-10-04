@@ -70,7 +70,7 @@ public class RenderingSystem extends EntitySystem implements EntityListener {
 
         for (Entity entity : entities) {
             TextureComponent tex = Mapper.texture.get(entity);
-            BodyComponent t = Mapper.body.get(entity);
+            BodyComponent body = Mapper.body.get(entity);
 
             if (tex.region == null) {
                 continue;
@@ -83,11 +83,11 @@ public class RenderingSystem extends EntitySystem implements EntityListener {
             float originY = height / 2f;
 
             batch.draw(tex.region,
-                    t.body.getPosition().x - originX, t.body.getPosition().y - originY,
+                    body.body.getPosition().x - originX, body.body.getPosition().y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
-                    t.body.getTransform().getRotation());
+                    PixelsToMeters(tex.scale.x), PixelsToMeters(tex.scale.y),
+                    body.body.getTransform().getRotation());
         }
 
         batch.end();

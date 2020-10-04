@@ -15,6 +15,7 @@ public class PowerUp {
         Entity e = new Entity();
 
         TextureComponent texture = new TextureComponent();
+        texture.scale.set(0.5f, 0.5f);
 
         switch (type) {
             case Life:
