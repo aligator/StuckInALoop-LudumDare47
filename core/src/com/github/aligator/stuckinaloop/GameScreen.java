@@ -64,6 +64,7 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addSystem(new ShootingSystem(world));
 
+        engine.addSystem(new BossSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new CollisionSystem(startingStats));
         engine.addSystem(new EnemySpawningSystem(world, this));
@@ -73,8 +74,9 @@ public class GameScreen extends ScreenAdapter {
 
         engine.addSystem(new HudSystem(batch, startingStats));
 
-        //engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
-        engine.addSystem(new RenderingSystem(batch));
+        RenderingSystem renderingSystem = new RenderingSystem(batch);
+        engine.addSystem(renderingSystem);
+        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
 
         engine.addSystem(new PhysicsSystem(world, this));
 

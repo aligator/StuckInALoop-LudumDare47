@@ -13,5 +13,6 @@ public class Mapper {
     public static final ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);
     public static final ComponentMapper<BodyComponent> body = ComponentMapper.getFor(BodyComponent.class);
     public static final ComponentMapper<CollisionComponent> collision = ComponentMapper.getFor(CollisionComponent.class);
+    public static final ComponentMapper<BossComponent> boss = ComponentMapper.getFor(BossComponent.class);
     public static final ComponentMapper<DiscardingComponent> discarding = ComponentMapper.getFor(DiscardingComponent.class);
 }

@@ -45,6 +45,10 @@ public class RenderingSystem extends EntitySystem implements EntityListener {
         return pixelValue * PIXELS_TO_METRES;
     }
 
+    public static float metersToPixels(float metersValue) {
+        return metersValue / PIXELS_TO_METRES;
+    }
+
     @Override
     public void addedToEngine(Engine engine) {
         entities = getEngine().getEntitiesFor(Family.all(BodyComponent.class, TextureComponent.class).get());

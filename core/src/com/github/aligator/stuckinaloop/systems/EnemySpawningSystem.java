@@ -14,7 +14,7 @@ import com.github.aligator.stuckinaloop.entities.Enemy;
 
 public class EnemySpawningSystem extends EntitySystem {
 
-    public final static int ENEMY_COUNT = 30;
+    public final static int ENEMY_COUNT = 31;
 
     private final World world;
 
@@ -51,7 +51,10 @@ public class EnemySpawningSystem extends EntitySystem {
     public void update(float deltaTime) {
         fullTime += deltaTime;
 
-        if (fullTime >= 3 && lastStep < 3) {
+        if (fullTime >= 1 && lastStep < 1) {
+            lastStep = 1;
+            getEngine().addEntity(Enemy.createHard(world));
+        } else if (fullTime >= 3 && lastStep < 3) {
             lastStep = 3;
             getEngine().addEntity(Enemy.create(world, -10f, 0.91f, 2, 1, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
@@ -81,35 +84,39 @@ public class EnemySpawningSystem extends EntitySystem {
             getEngine().addEntity(Enemy.create(world, -4f, 0.9f, 1.5f, 3, 2));
             getEngine().addEntity(Enemy.create(world, -8f, 0f, 1.5f, 1, 3));
             getEngine().addEntity(Enemy.create(world, -9f, 0.3f, 1.5f, 2, 1));
-        } else if (fullTime >= 24 && lastStep < 24) {
-            lastStep = 24;
+        } else if (fullTime >= 30 && lastStep < 30) {
+            // one harder enemy
+            lastStep = 30;
+            getEngine().addEntity(Enemy.createHard(world));
+        } else if (fullTime >= 40 && lastStep < 40) {
+            lastStep = 40;
             getEngine().addEntity(Enemy.create(world, -9f, 0.7f, 1.6f, 1, 3));
             getEngine().addEntity(Enemy.create(world, -10f, 0.2f, 1.5f, 3, 3));
-        } else if (fullTime >= 26 && lastStep < 26) {
-            lastStep = 26;
+        } else if (fullTime >= 43 && lastStep < 43) {
+            lastStep = 43;
             getEngine().addEntity(Enemy.create(world, -3f, 0.6f, 2, 1, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 2, 3));
-        } else if (fullTime >= 28 && lastStep < 28) {
-            lastStep = 28;
+        } else if (fullTime >= 48 && lastStep < 48) {
+            lastStep = 48;
             getEngine().addEntity(Enemy.create(world, -7f, 0.6f, 1.3f, 1, 2));
             getEngine().addEntity(Enemy.create(world, -9f, 1f, 1.8f, 1, 1));
-        } else if (fullTime >= 30 && lastStep < 30) {
-            lastStep = 30;
+        } else if (fullTime >= 50 && lastStep < 50) {
+            lastStep = 50;
             getEngine().addEntity(Enemy.create(world, -10f, 0.6f, 2, 2, 3));
             getEngine().addEntity(Enemy.create(world, -5f, 0.5f, 1.5f, 3, 2));
-        } else if (fullTime >= 32 && lastStep < 32) {
-            lastStep = 32;
+        } else if (fullTime >= 53 && lastStep < 53) {
+            lastStep = 53;
             getEngine().addEntity(Enemy.create(world, -8f, 0.6f, 2, 2, 1));
             getEngine().addEntity(Enemy.create(world, -9f, 0.5f, 1.5f, 1, 1));
-        } else if (fullTime >= 35 && lastStep < 35) {
-            lastStep = 35;
+        } else if (fullTime >= 57 && lastStep < 57) {
+            lastStep = 57;
             getEngine().addEntity(Enemy.create(world, -6f, 0.3f, 2, 3, 3));
             getEngine().addEntity(Enemy.create(world, -9f, 1f, 1.5f, 1, 3));
-        } else if (fullTime >= 36 && lastStep < 36) {
-            lastStep = 36;
+        } else if (fullTime >= 60 && lastStep < 60) {
+            lastStep = 60;
             getEngine().addEntity(Enemy.create(world, -4f, 0.4f, 2, 3, 3));
             getEngine().addEntity(Enemy.create(world, -5f, 0.2f, 1.5f, 3, 3));
-        } else if (lastStep >= 36 && getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size() == 0) {
+        } else if (lastStep >= 60 && getEngine().getEntitiesFor(Family.all(EnemyComponent.class).get()).size() == 0) {
             if (player != null) {
                 PlayerComponent playerComponent = Mapper.player.get(player);
                 if (playerComponent.kills < ENEMY_COUNT) {

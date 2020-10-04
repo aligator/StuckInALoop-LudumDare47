@@ -2,12 +2,13 @@ package com.github.aligator.stuckinaloop.entities;
 
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.github.aligator.stuckinaloop.Assets;
+import com.github.aligator.stuckinaloop.BodyEditorLoader;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
 import com.github.aligator.stuckinaloop.components.*;
 import com.github.aligator.stuckinaloop.systems.RenderingSystem;
@@ -35,15 +36,13 @@ public class Player {
 
         bodyComponent.body = world.createBody(bodyDef);
 
-        PolygonShape poly = new PolygonShape();
-        poly.setAsBox(texture.widthInMeters() / 2, texture.heightInMeters() / 2);
-
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = poly;
         fixtureDef.isSensor = true;
+
+        new BodyEditorLoader(Gdx.files.internal("box2d.json")).attachFixture(bodyComponent.body, "spaceShip", fixtureDef, 5.0625f, 4.8125f, false);
+
         bodyComponent.body.setUserData(e);
         bodyComponent.body.createFixture(fixtureDef);
-        poly.dispose();
 
         e.add(new PlayerComponent());
         e.add(new CollisionComponent());
