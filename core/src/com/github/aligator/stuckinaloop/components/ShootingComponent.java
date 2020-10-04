@@ -7,6 +7,15 @@ public class ShootingComponent implements Component {
     public float firePauseTime = 1f;
     public float lastShotTime = -1;
 
+    /**
+     * burstFirePauseTime is the firePauseTime max needed to enable burst mode
+     */
+    public float burstFirePauseTime = 0.3f;
+    public float burstCoolDown = 3f;
+    public float currentBurstCoolDown = burstCoolDown;
+    public float maxShotsInBurstTime = 5;
+    public float burstShootCount = 0;
+
     public ShootingComponent() {
     }
 

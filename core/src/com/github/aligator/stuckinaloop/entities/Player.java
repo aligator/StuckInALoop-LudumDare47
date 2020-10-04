@@ -47,7 +47,7 @@ public class Player {
 
         e.add(new PlayerComponent());
         e.add(new CollisionComponent());
-        e.add(new ShootingComponent(false, startingStats.firePauseTime));
+        e.add(new ShootingComponent(false, 0.1f));//startingStats.firePauseTime));
         e.add(new SpaceShipComponent(startingStats.life, startingStats.damage));
         e.add(bodyComponent);
         e.add(velocity);

@@ -64,7 +64,7 @@ public class HudSystem extends EntitySystem implements EntityListener {
         Assets.font24.draw(batch, "for next live:", cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 1);
         Assets.font24.draw(batch, "Live: " + startingStats.life, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 3);
         Assets.font24.draw(batch, "Damage " + startingStats.damage, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 4);
-        Assets.font24.draw(batch, "Fire rate " + Math.round((1.0f - startingStats.firePauseTime) * 10) + 1, cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
+        Assets.font24.draw(batch, "Fire rate " + (Math.round((1.0f - startingStats.firePauseTime) * 10) + 1), cam.viewportWidth - Assets.font24.getXHeight() * 12, cam.viewportHeight - Assets.font24.getLineHeight() * 5);
 
         batch.draw(Assets.lifePowerUp,
                 cam.viewportWidth - Assets.font24.getXHeight() * 12 - Assets.lifePowerUp.getRegionWidth() * 0.2f - 5,
