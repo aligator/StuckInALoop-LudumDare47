@@ -2,10 +2,14 @@
 Ludum Dare 47
 
 ## Gameplay
-You control a spaceship wit _W A S D_ (move)and _SPACE_ (shoot).  
-You will find power ups which improve your abilities, but they will only take effect __after you get destroyed__.  
+You are stuck,  
+stuck in a fight you have to do over and over again...
 
-Each time you will face the same enemies but improve over time due to the power ups.  
+... but you will find power ups which improve your abilities!
+However, they will only take effect __after you get destroyed__.  
+
+You control a spaceship wit _W A S D_ (move)and _SPACE_ (shoot).  
+Each time you get destroyed, you will face the same enemies but improve your skills over time due to the power ups.  
 
 ## Power up
 There are 3 types:  
@@ -17,7 +21,7 @@ If you got the maximum possible amount of a power up, it will no longer spawn an
 __Note that you have to die to enable newly collected power ups!__
 
 ## Goal
-Destroy all enemies. You have to destroy all of them or the game will restart.  
+Destroy all enemies. You have to destroy all of them, or the game will restart.  
 You can see the remaining enemy count on the top left.
 
 ## Platforms
