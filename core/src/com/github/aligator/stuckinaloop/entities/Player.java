@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.BodyEditorLoader;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
@@ -46,7 +47,12 @@ public class Player {
 
         e.add(new PlayerComponent());
         e.add(new CollisionComponent());
-        e.add(new ShootingComponent(false, startingStats.firePauseTime));
+
+        Array<ShootingComponent.Canon> canons = new Array<>();
+
+        canons.add(new ShootingComponent.Canon(new Vector2(texture.widthInMeters() / 2, 0)));
+
+        e.add(new ShootingComponent(canons, false, startingStats.firePauseTime));
         e.add(new SpaceShipComponent(startingStats.life, startingStats.damage));
         e.add(bodyComponent);
         e.add(velocity);

@@ -29,7 +29,7 @@ public class Bullet {
                     break;
             }
 
-            position.x = position.x - texture.widthInMeters();
+            position.x = position.x - texture.widthInMeters() / 2;
 
         } else {
             switch (damage) {
@@ -44,7 +44,7 @@ public class Bullet {
                     break;
             }
 
-            position.x = position.x + texture.widthInMeters();
+            position.x = position.x + texture.widthInMeters() / 2;
         }
 
         BodyComponent bodyComponent = new BodyComponent();

@@ -24,11 +24,11 @@ public class BossSystem extends IteratingSystem {
         }
 
         if (boss.isInFightingPosition && body.body.getPosition().y + texture.heightInMeters() / 2 >= RenderingSystem.getScreenSizeInMeters().y) {
-            body.body.setLinearVelocity(0f, -5f);
+            body.body.setLinearVelocity(0f, -10f);
         }
 
         if (boss.isInFightingPosition && body.body.getPosition().y - texture.heightInMeters() / 2 <= 0) {
-            body.body.setLinearVelocity(0f, 5f);
+            body.body.setLinearVelocity(0f, 10f);
         }
     }
 }

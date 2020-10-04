@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.PlayerStartingStats;
+import com.github.aligator.stuckinaloop.components.BossComponent;
 import com.github.aligator.stuckinaloop.components.Mapper;
 import com.github.aligator.stuckinaloop.components.PlayerComponent;
 import com.github.aligator.stuckinaloop.components.SpaceShipComponent;
@@ -16,6 +17,7 @@ public class HudSystem extends EntitySystem implements EntityListener {
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private Entity player;
+    private Entity boss;
     private PlayerStartingStats startingStats;
 
     public HudSystem(SpriteBatch batch, PlayerStartingStats startingStats) {
@@ -28,13 +30,19 @@ public class HudSystem extends EntitySystem implements EntityListener {
 
     @Override
     public void addedToEngine(Engine engine) {
-        ImmutableArray<Entity> entities = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
-        if (entities.size() > 0) {
-            player = entities.first();
-            return;
+        player = null;
+        boss = null;
+
+        ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
+        if (players.size() > 0) {
+            player = players.first();
         }
 
-        player = null;
+        ImmutableArray<Entity> bosses = getEngine().getEntitiesFor(Family.all(BossComponent.class).get());
+        if (bosses.size() > 0) {
+            boss = bosses.first();
+        }
+
     }
 
     @Override
@@ -46,14 +54,22 @@ public class HudSystem extends EntitySystem implements EntityListener {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (player == null) {
-            return;
-        }
-
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.enableBlending();
         batch.begin();
+
+        // draw boss hud
+        if (boss != null) {
+            BossComponent bossComp = Mapper.boss.get(boss);
+            SpaceShipComponent spaceShip = Mapper.spaceShip.get(boss);
+            String text = "Boss health: " + spaceShip.life + " / " + bossComp.startingHealth;
+            Assets.font24.draw(batch, text, cam.viewportWidth / 2 - Assets.font24.getXHeight() * (text.length() / 2), cam.viewportHeight);
+        }
+
+        if (player == null) {
+            return;
+        }
 
         SpaceShipComponent spaceShip = Mapper.spaceShip.get(player);
         PlayerComponent playerComp = Mapper.player.get(player);

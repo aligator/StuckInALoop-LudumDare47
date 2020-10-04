@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.github.aligator.stuckinaloop.Assets;
 import com.github.aligator.stuckinaloop.BodyEditorLoader;
 import com.github.aligator.stuckinaloop.components.*;
@@ -14,16 +15,30 @@ import com.github.aligator.stuckinaloop.systems.RenderingSystem;
 
 public class Enemy {
 
-    public static Entity createHard(World world) {
-        Entity enemy = create(world, -3f, 0.5f, 1f, 10, 3, 2f);
+    public static Entity createBoss(World world, int live) {
+        Entity enemy = create(world, -3f, 0.5f, 1f, live, 3, 2f);
 
-        enemy.add(new BossComponent());
+        enemy.add(new BossComponent(live));
+
+        Array<ShootingComponent.Canon> canons = new Array<>();
+        TextureComponent texture = Mapper.texture.get(enemy);
+        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
+        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, 4.5f)));
+        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2 + 7, -4.5f)));
+        enemy.add(new ShootingComponent(canons, true, 1f));
 
         return enemy;
     }
 
     public static Entity create(World world, float force, float yPercentage, float firePauseTime, int live, int damage) {
-        return create(world, force, yPercentage, firePauseTime, live, damage, 1f);
+        Entity enemy = create(world, force, yPercentage, firePauseTime, live, damage, 1f);
+
+        Array<ShootingComponent.Canon> canons = new Array<>();
+        TextureComponent texture = Mapper.texture.get(enemy);
+        canons.add(new ShootingComponent.Canon(new Vector2(-texture.widthInMeters() / 2, 0)));
+        enemy.add(new ShootingComponent(canons, true, firePauseTime));
+
+        return enemy;
     }
 
     public static Entity create(World world, float force, float yPercentage, float firePauseTime, int live, int damage, float scale) {
@@ -70,7 +85,6 @@ public class Enemy {
         e.add(new EnemyComponent());
         e.add(new DiscardingComponent());
         e.add(new SpaceShipComponent(live, damage));
-        e.add(new ShootingComponent(true, firePauseTime));
         e.add(bodyComponent);
         e.add(velocity);
         e.add(texture);
